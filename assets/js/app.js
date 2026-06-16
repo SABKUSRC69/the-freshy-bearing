@@ -151,6 +151,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const teamCounts = [0, 0, 0, 0]; // [Nort, South, ISAN, Central]
     const majorCounts = {};
     let msCount = 0, engCount = 0, sciCount = 0, marCount = 0, ecoCount = 0;
+    const teamSessionCounts = [
+        [0, 0], // Nort
+        [0, 0], // South
+        [0, 0], // ISAN
+        [0, 0]  // Central
+    ];
 
     STUDENT_DATA.forEach(row => {
         const major = row[4];
@@ -171,6 +177,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Team count
         teamCounts[teamId]++;
+
+        // Team/Session count
+        teamSessionCounts[teamId][sessionId]++;
 
         // Major counts
         if (!majorCounts[major]) {
@@ -232,26 +241,53 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Chart 2: Session Distribution (Bar)
+    // Chart 2: Team/Session Size Distribution (Grouped Bar)
     const ctxPlan = document.getElementById('planChart').getContext('2d');
     new Chart(ctxPlan, {
         type: 'bar',
         data: {
-            labels: ['รอบเช้า (Morning)', 'รอบบ่าย (Afternoon)'],
-            datasets: [{
-                label: 'จำนวนนิสิต (คน)',
-                data: [morningCount, afternoonCount],
-                backgroundColor: ['#cba358', '#3c3222'],
-                borderColor: ['#9b7b3c', '#272016'],
-                borderWidth: 1,
-                borderRadius: 4
-            }]
+            labels: ['ทิศเหนือ (Nort)', 'ทิศใต้ (South)', 'ทิศอีสาน (ISAN)', 'ทิศกลาง (Central)'],
+            datasets: [
+                {
+                    label: 'รอบเช้า (Morning)',
+                    data: [
+                        teamSessionCounts[0][0],
+                        teamSessionCounts[1][0],
+                        teamSessionCounts[2][0],
+                        teamSessionCounts[3][0]
+                    ],
+                    backgroundColor: '#cba358',
+                    borderColor: '#9b7b3c',
+                    borderWidth: 1,
+                    borderRadius: 4
+                },
+                {
+                    label: 'รอบบ่าย (Afternoon)',
+                    data: [
+                        teamSessionCounts[0][1],
+                        teamSessionCounts[1][1],
+                        teamSessionCounts[2][1],
+                        teamSessionCounts[3][1]
+                    ],
+                    backgroundColor: '#3c3222',
+                    borderColor: '#272016',
+                    borderWidth: 1,
+                    borderRadius: 4
+                }
+            ]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-                legend: { display: false }
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        font: { family: 'Bai Jamjuree', size: 10 },
+                        color: '#6e624c'
+                    }
+                }
             },
             scales: {
                 x: {
