@@ -533,7 +533,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------------------------------
     // 6. Admin Panel (Password Locked Master Student List)
     // ----------------------------------------------------
-    const ADMIN_PASSWORD = "freshy2569";
+    const ADMIN_PASSWORD = "sabsab1234";
     let isAdminUnlocked = sessionStorage.getItem('isAdminUnlocked') === 'true';
     let adminFilteredData = [];
     let adminCurrentPage = 1;
