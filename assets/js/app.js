@@ -232,17 +232,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Chart 2: Team Size Distribution (Bar)
+    // Chart 2: Session Distribution (Bar)
     const ctxPlan = document.getElementById('planChart').getContext('2d');
     new Chart(ctxPlan, {
         type: 'bar',
         data: {
-            labels: ['ทิศเหนือ (Nort)', 'ทิศใต้ (South)', 'ทิศอีสาน (ISAN)', 'ทิศกลาง (Central)'],
+            labels: ['รอบเช้า (Morning)', 'รอบบ่าย (Afternoon)'],
             datasets: [{
                 label: 'จำนวนนิสิต (คน)',
-                data: teamCounts,
-                backgroundColor: ['#568a5c', '#507ea6', '#cba358', '#d97486'],
-                borderColor: ['#3e6643', '#395d7b', '#9b7b3c', '#ad5061'],
+                data: [morningCount, afternoonCount],
+                backgroundColor: ['#cba358', '#3c3222'],
+                borderColor: ['#9b7b3c', '#272016'],
                 borderWidth: 1,
                 borderRadius: 4
             }]
