@@ -21,7 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <!-- Style CSS -->
-    <link rel="stylesheet" href="style.css?v=1.1">
+    <link rel="stylesheet" href="style.css?v=1.2">
 </head>
 <body>
     <!-- Background Splatters and Corners for Aesthetic Scrapbook Vibe -->
@@ -57,6 +57,10 @@
                     <i class="fa-solid fa-map"></i>
                     <span>ธีมกลุ่มกิจกรรม 4 ทิศ</span>
                 </button>
+                <button class="menu-tab" data-target="admin-section" id="nav-admin">
+                    <i class="fa-solid fa-lock"></i>
+                    <span>ข้อมูลนิสิตทั้งหมด</span>
+                </button>
 
             </nav>
             <div class="sidebar-footer">
@@ -70,7 +74,7 @@
             <header class="page-header-banner">
                 <div class="header-overlay-stars"></div>
                 <div class="header-title-container">
-                    <img src="assets/images/ku_header.png?v=1.1" alt="KU Header Logo" class="ku-header-logo">
+                    <img src="assets/images/ku_header.png?v=1.2" alt="KU Header Logo" class="ku-header-logo">
                     <h1 class="header-main-title">โครงการทิศทางเฟรชชี่</h1>
                     <h2 class="header-sub-title">The Freshy Bearing</h2>
                 </div>
@@ -475,12 +479,118 @@
                     </div>
                 </div>
             </section>
+
+            <!-- SECTION 5: ADMIN MASTER LIST (PASSWORD LOCKED) -->
+            <section id="admin-section" class="content-section">
+                <div class="scrapbook-page-title">
+                    <h2><span class="antique-number">05</span> รายชื่อนิสิตใหม่ทั้งหมด</h2>
+                    <img src="assets/images/paper_ribbon.png" class="title-ribbon" alt="Ribbon">
+                </div>
+
+                <!-- Password Lock Screen -->
+                <div id="admin-lock-screen" class="admin-lock-card">
+                    <div class="lock-icon-wrapper">
+                        <i class="fa-solid fa-lock-open lock-unlocked" style="display: none;"></i>
+                        <i class="fa-solid fa-lock lock-locked"></i>
+                    </div>
+                    <h3>ระบบตรวจสอบรายชื่อทั้งหมด (สำหรับผู้ดูแล)</h3>
+                    <p class="lock-subtitle">เนื่องจากข้อมูลรายชื่อนิสิตเป็นข้อมูลส่วนบุคคล (PDPA) กรุณากรอกรหัสผ่านเพื่อเข้าใช้งานระบบสืบค้นข้อมูลกลุ่มและรอบกิจกรรมของนิสิตทุกคน</p>
+                    
+                    <div class="password-form">
+                        <div class="password-input-group">
+                            <input type="password" id="admin-password-input" placeholder="กรอกรหัสผ่านเข้าใช้งาน...">
+                            <button type="button" id="toggle-password-visibility" style="cursor: pointer;">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                        <button type="button" id="btn-unlock-admin" class="btn-unlock">
+                            <i class="fa-solid fa-key"></i> ยืนยันรหัสผ่าน
+                        </button>
+                        <p id="admin-login-error" class="login-error-msg" style="display: none;">รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง</p>
+                    </div>
+                </div>
+
+                <!-- Admin Data Dashboard (Initially Hidden) -->
+                <div id="admin-dashboard-content" style="display: none;">
+                    <div class="admin-toolbar">
+                        <div class="toolbar-search">
+                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                            <input type="text" id="admin-search-input" placeholder="ค้นหา รหัสนิสิต หรือ ชื่อ-นามสกุล...">
+                        </div>
+                        <div class="toolbar-filters">
+                            <div class="filter-group">
+                                <label for="admin-filter-faculty">คณะ:</label>
+                                <select id="admin-filter-faculty">
+                                    <option value="all">ทั้งหมด</option>
+                                    <option value="คณะวิทยาการจัดการ">คณะวิทยาการจัดการ</option>
+                                    <option value="คณะวิศวกรรมศาสตร์ศรีราชา">คณะวิศวกรรมศาสตร์ศรีราชา</option>
+                                    <option value="คณะวิทยาศาสตร์ศรีราชา">คณะวิทยาศาสตร์ศรีราชา</option>
+                                    <option value="คณะพาณิชยนาวีนานาชาติ">คณะพาณิชยนาวีนานาชาติ</option>
+                                    <option value="คณะเศรษฐศาสตร์">คณะเศรษฐศาสตร์</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label for="admin-filter-direction">ทิศ/กลุ่ม:</label>
+                                <select id="admin-filter-direction">
+                                    <option value="all">ทั้งหมด</option>
+                                    <option value="0">ทิศเหนือ (Nort)</option>
+                                    <option value="1">ทิศใต้ (South)</option>
+                                    <option value="2">ทิศอีสาน (ISAN)</option>
+                                    <option value="3">ทิศกลาง (Central)</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label for="admin-filter-session">รอบ:</label>
+                                <select id="admin-filter-session">
+                                    <option value="all">ทั้งหมด</option>
+                                    <option value="0">รอบเช้า (Morning)</option>
+                                    <option value="1">รอบบ่าย (Afternoon)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Statistics Summary for Admin -->
+                    <div class="admin-stats-summary">
+                        <span>พบนิสิตตรงตามเงื่อนไข: <strong id="admin-total-filtered">0</strong> คน</span>
+                    </div>
+
+                    <!-- Data Table -->
+                    <div class="admin-table-container">
+                        <table class="admin-table" id="admin-students-table">
+                            <thead>
+                                <tr>
+                                    <th>ลำดับ</th>
+                                    <th>รหัสนิสิต</th>
+                                    <th>ชื่อ-นามสกุล</th>
+                                    <th>คณะวิชา</th>
+                                    <th>สาขาวิชา</th>
+                                    <th>กลุ่มทิศทาง</th>
+                                    <th>รอบกิจกรรม</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- JS will populate rows -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination Controls -->
+                    <div class="admin-pagination">
+                        <span id="admin-pagination-info">แสดงผล 0-0 จาก 0 รายการ</span>
+                        <div class="pagination-buttons">
+                            <button id="btn-admin-prev" class="btn-page" disabled><i class="fa-solid fa-chevron-left"></i> ก่อนหน้า</button>
+                            <button id="btn-admin-next" class="btn-page" disabled>ถัดไป <i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
     <!-- Student Data Script -->
     <script src="assets/js/data.js"></script>
     <!-- App Script -->
-    <script src="assets/js/app.js?v=1.1"></script>
+    <script src="assets/js/app.js?v=1.2"></script>
 </body>
 </html>

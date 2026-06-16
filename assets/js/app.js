@@ -530,4 +530,250 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // ----------------------------------------------------
+    // 6. Admin Panel (Password Locked Master Student List)
+    // ----------------------------------------------------
+    const ADMIN_PASSWORD = "freshy2569";
+    let isAdminUnlocked = sessionStorage.getItem('isAdminUnlocked') === 'true';
+    let adminFilteredData = [];
+    let adminCurrentPage = 1;
+    const adminPageSize = 50;
+
+    const adminLockScreen = document.getElementById('admin-lock-screen');
+    const adminDashboardContent = document.getElementById('admin-dashboard-content');
+    const adminPasswordInput = document.getElementById('admin-password-input');
+    const togglePasswordBtn = document.getElementById('toggle-password-visibility');
+    const btnUnlockAdmin = document.getElementById('btn-unlock-admin');
+    const adminLoginError = document.getElementById('admin-login-error');
+
+    const adminSearchInput = document.getElementById('admin-search-input');
+    const adminFilterFaculty = document.getElementById('admin-filter-faculty');
+    const adminFilterDirection = document.getElementById('admin-filter-direction');
+    const adminFilterSession = document.getElementById('admin-filter-session');
+    const adminTotalFiltered = document.getElementById('admin-total-filtered');
+    const adminPaginationInfo = document.getElementById('admin-pagination-info');
+
+    // Init state check
+    if (isAdminUnlocked) {
+        unlockAdminPanel();
+    }
+
+    // Toggle password eye icon
+    if (togglePasswordBtn && adminPasswordInput) {
+        togglePasswordBtn.addEventListener('click', () => {
+            const currentType = adminPasswordInput.getAttribute('type');
+            const targetType = currentType === 'password' ? 'text' : 'password';
+            adminPasswordInput.setAttribute('type', targetType);
+            
+            const eyeIcon = togglePasswordBtn.querySelector('i');
+            if (targetType === 'password') {
+                eyeIcon.className = 'fa-solid fa-eye';
+            } else {
+                eyeIcon.className = 'fa-solid fa-eye-slash';
+            }
+        });
+    }
+
+    // Handle password unlock click/enter
+    if (btnUnlockAdmin && adminPasswordInput) {
+        btnUnlockAdmin.addEventListener('click', attemptUnlock);
+        adminPasswordInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                attemptUnlock();
+            }
+        });
+    }
+
+    function attemptUnlock() {
+        const enteredPassword = adminPasswordInput.value;
+        if (enteredPassword === ADMIN_PASSWORD) {
+            // Success animation
+            adminLoginError.style.display = 'none';
+            const lockedIcon = document.querySelector('.lock-locked');
+            const unlockedIcon = document.querySelector('.lock-unlocked');
+            if (lockedIcon && unlockedIcon) {
+                lockedIcon.style.display = 'none';
+                unlockedIcon.style.display = 'inline-block';
+            }
+            
+            sessionStorage.setItem('isAdminUnlocked', 'true');
+            isAdminUnlocked = true;
+            
+            // Short delay for animation effect
+            setTimeout(() => {
+                unlockAdminPanel();
+            }, 400);
+        } else {
+            // Failure animation
+            adminLoginError.style.display = 'block';
+            adminPasswordInput.classList.remove('error-shake');
+            // Force browser reflow to restart css animation
+            void adminPasswordInput.offsetWidth; 
+            adminPasswordInput.classList.add('error-shake');
+            
+            adminPasswordInput.style.borderColor = '#d9534f';
+            setTimeout(() => {
+                adminPasswordInput.style.borderColor = '';
+                adminPasswordInput.classList.remove('error-shake');
+            }, 1000);
+        }
+    }
+
+    function unlockAdminPanel() {
+        if (adminLockScreen) adminLockScreen.style.display = 'none';
+        if (adminDashboardContent) adminDashboardContent.style.display = 'block';
+        
+        // Load initial data
+        adminFilteredData = [...STUDENT_DATA];
+        applyAdminFilters();
+        
+        // Setup dashboard event listeners
+        if (adminSearchInput) adminSearchInput.addEventListener('input', applyAdminFilters);
+        if (adminFilterFaculty) adminFilterFaculty.addEventListener('change', applyAdminFilters);
+        if (adminFilterDirection) adminFilterDirection.addEventListener('change', applyAdminFilters);
+        if (adminFilterSession) adminFilterSession.addEventListener('change', applyAdminFilters);
+        
+        const btnAdminPrev = document.getElementById('btn-admin-prev');
+        const btnAdminNext = document.getElementById('btn-admin-next');
+
+        if (btnAdminPrev) {
+            // Remove any existing listeners to prevent multiple clicks
+            const newBtnPrev = btnAdminPrev.cloneNode(true);
+            btnAdminPrev.parentNode.replaceChild(newBtnPrev, btnAdminPrev);
+            newBtnPrev.addEventListener('click', () => {
+                if (adminCurrentPage > 1) {
+                    adminCurrentPage--;
+                    renderAdminTable();
+                }
+            });
+        }
+        
+        if (btnAdminNext) {
+            // Remove any existing listeners to prevent multiple clicks
+            const newBtnNext = btnAdminNext.cloneNode(true);
+            btnAdminNext.parentNode.replaceChild(newBtnNext, btnAdminNext);
+            newBtnNext.addEventListener('click', () => {
+                if (adminCurrentPage * adminPageSize < adminFilteredData.length) {
+                    adminCurrentPage++;
+                    renderAdminTable();
+                }
+            });
+        }
+    }
+
+    function applyAdminFilters() {
+        const searchQuery = adminSearchInput ? adminSearchInput.value.trim().toLowerCase() : '';
+        const selectedFaculty = adminFilterFaculty ? adminFilterFaculty.value : 'all';
+        const selectedDirection = adminFilterDirection ? adminFilterDirection.value : 'all';
+        const selectedSession = adminFilterSession ? adminFilterSession.value : 'all';
+        
+        adminFilteredData = STUDENT_DATA.filter(row => {
+            // 1. Search Query filter
+            let matchesSearch = true;
+            if (searchQuery !== '') {
+                const sid = row[0].toString();
+                const fullName = (row[1] + row[2] + " " + row[3]).toLowerCase();
+                matchesSearch = sid.includes(searchQuery) || fullName.includes(searchQuery);
+            }
+            
+            // 2. Faculty filter
+            let matchesFaculty = true;
+            if (selectedFaculty !== 'all') {
+                const faculty = getFacultyByMajor(row[4]);
+                matchesFaculty = faculty === selectedFaculty;
+            }
+            
+            // 3. Direction (Team) filter
+            let matchesDirection = true;
+            if (selectedDirection !== 'all') {
+                const teamId = row[7].toString();
+                matchesDirection = teamId === selectedDirection;
+            }
+            
+            // 4. Session filter
+            let matchesSession = true;
+            if (selectedSession !== 'all') {
+                const sessionId = row[6].toString();
+                matchesSession = sessionId === selectedSession;
+            }
+            
+            return matchesSearch && matchesFaculty && matchesDirection && matchesSession;
+        });
+        
+        adminCurrentPage = 1;
+        renderAdminTable();
+    }
+
+    function renderAdminTable() {
+        const currentTableBody = document.querySelector('#admin-students-table tbody');
+        if (!currentTableBody) return;
+        currentTableBody.innerHTML = '';
+        
+        const total = adminFilteredData.length;
+        if (adminTotalFiltered) {
+            adminTotalFiltered.textContent = total.toLocaleString();
+        }
+        
+        const currentBtnPrev = document.getElementById('btn-admin-prev');
+        const currentBtnNext = document.getElementById('btn-admin-next');
+        const currentPaginationInfo = document.getElementById('admin-pagination-info');
+        
+        if (total === 0) {
+            currentTableBody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 30px; color: var(--text-secondary);">ไม่พบข้อมูลนิสิตที่ตรงตามเงื่อนไขค้นหา</td></tr>`;
+            if (currentPaginationInfo) currentPaginationInfo.textContent = 'แสดงผล 0-0 จาก 0 รายการ';
+            if (currentBtnPrev) currentBtnPrev.disabled = true;
+            if (currentBtnNext) currentBtnNext.disabled = true;
+            return;
+        }
+        
+        const start = (adminCurrentPage - 1) * adminPageSize;
+        const end = Math.min(start + adminPageSize, total);
+        const pageData = adminFilteredData.slice(start, end);
+        
+        // Define team names and badges
+        const teamBadges = [
+            '<span class="direction-badge-table badge-north">ทิศเหนือ (Nort)</span>',
+            '<span class="direction-badge-table badge-south">ทิศใต้ (South)</span>',
+            '<span class="direction-badge-table badge-isan">ทิศอีสาน (ISAN)</span>',
+            '<span class="direction-badge-table badge-central">ทิศกลาง (Central)</span>'
+        ];
+        
+        const sessionBadges = [
+            '<span class="session-badge-table badge-morning"><i class="fa-solid fa-sun"></i> รอบเช้า</span>',
+            '<span class="session-badge-table badge-afternoon"><i class="fa-solid fa-moon"></i> รอบบ่าย</span>'
+        ];
+        
+        pageData.forEach((row, idx) => {
+            const tr = document.createElement('tr');
+            
+            const index = start + idx + 1;
+            const sid = row[0];
+            const name = row[1] + row[2] + " " + row[3];
+            const major = row[4];
+            const faculty = getFacultyByMajor(major);
+            const teamBadge = teamBadges[row[7]] || '-';
+            const sessionBadge = sessionBadges[row[6]] || '-';
+            
+            tr.innerHTML = `
+                <td>${index.toLocaleString()}</td>
+                <td style="font-weight: 600; font-family: monospace; font-size: 0.9rem;">${sid}</td>
+                <td>${name}</td>
+                <td>${faculty}</td>
+                <td>${major}</td>
+                <td>${teamBadge}</td>
+                <td>${sessionBadge}</td>
+            `;
+            currentTableBody.appendChild(tr);
+        });
+        
+        // Update pagination info
+        if (currentPaginationInfo) {
+            currentPaginationInfo.textContent = `แสดงผล ${(start + 1).toLocaleString()} - ${end.toLocaleString()} จาก ${total.toLocaleString()} รายการ`;
+        }
+        
+        // Update button disabled state
+        if (currentBtnPrev) currentBtnPrev.disabled = adminCurrentPage === 1;
+        if (currentBtnNext) currentBtnNext.disabled = end >= total;
+    }
+
 });
