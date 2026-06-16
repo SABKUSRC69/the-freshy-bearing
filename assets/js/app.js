@@ -357,8 +357,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const query = searchInput.value.trim().toLowerCase();
         searchResultsGrid.innerHTML = '';
 
-        if (query === '' && activeFilter === 'all') {
-            resultsCountText.textContent = "พร้อมค้นหารายชื่อจากฐานข้อมูล 3,452 คน (กรุณากรอกรหัสนิสิตหรือชื่อ)";
+        if (query === '') {
+            resultsCountText.textContent = "กรุณากรอกรหัสนิสิต หรือชื่อ-นามสกุล เพื่อค้นหาข้อมูล";
             return;
         }
 
@@ -368,14 +368,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const major = row[4];
             const faculty = getFacultyByMajor(major);
 
-            const matchesQuery = query === '' || sid.includes(query) || fullName.includes(query);
+            const matchesQuery = sid.includes(query) || fullName.includes(query);
             const matchesFilter = activeFilter === 'all' || faculty === activeFilter;
 
             return matchesQuery && matchesFilter;
         });
-
-        const displayLimit = 50;
-        const toDisplay = filtered.slice(0, displayLimit);
 
         if (filtered.length === 0) {
             resultsCountText.textContent = `ไม่พบผลการค้นหาสำหรับ "${query}"`;
@@ -383,9 +380,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        resultsCountText.textContent = `พบรายชื่อทั้งหมด ${filtered.length} คน ${filtered.length > displayLimit ? `(แสดงเฉพาะ ${displayLimit} คนแรก)` : ''}`;
+        resultsCountText.textContent = `พบรายชื่อทั้งหมด ${filtered.length} คน`;
 
-        toDisplay.forEach(row => {
+        filtered.forEach(row => {
             const sid = row[0];
             const prefix = row[1];
             const name = row[2];
