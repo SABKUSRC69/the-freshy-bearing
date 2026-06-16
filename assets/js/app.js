@@ -679,7 +679,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // 2. Faculty filter
             let matchesFaculty = true;
             if (selectedFaculty !== 'all') {
-                const faculty = getFacultyByMajor(row[4]);
+                let faculty = getFacultyByMajor(row[4]);
+                if (faculty && !faculty.startsWith("คณะ")) {
+                    faculty = "คณะ" + faculty;
+                }
                 matchesFaculty = faculty === selectedFaculty;
             }
             
@@ -750,7 +753,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const sid = row[0];
             const name = row[1] + row[2] + " " + row[3];
             const major = row[4];
-            const faculty = getFacultyByMajor(major);
+            let faculty = getFacultyByMajor(major);
+            if (faculty && !faculty.startsWith("คณะ")) {
+                faculty = "คณะ" + faculty;
+            }
             const teamBadge = teamBadges[row[7]] || '-';
             const sessionBadge = sessionBadges[row[6]] || '-';
             
