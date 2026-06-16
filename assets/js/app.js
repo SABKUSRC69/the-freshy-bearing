@@ -93,15 +93,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (sessionId === 0) {
             return {
                 name: "กลุ่มเช้า (Morning)",
-                regTime: "09.00 - 09.30 น.",
-                activityTime: "09.30 - 14.20 น.",
+                regTime: "08.00 - 08.30 น.",
+                activityTime: "08.30 - 12.30 น.",
                 iconClass: "fa-solid fa-sun"
             };
         } else {
             return {
                 name: "กลุ่มบ่าย (Afternoon)",
-                regTime: "15.20 - 15.50 น.",
-                activityTime: "15.50 - 20.40 น.",
+                regTime: "13.30 - 14.00 น.",
+                activityTime: "14.00 - 18.00 น.",
                 iconClass: "fa-solid fa-moon"
             };
         }
