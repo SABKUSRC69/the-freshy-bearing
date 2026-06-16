@@ -1,0 +1,6 @@
+# Ignore large presentation PDF (exceeds GitHub's 100MB limit)
+THE FTESHY BEARING.pdf
+
+# Ignore OS temp files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Freshy Bearing - ระบบลงทะเบียนและข้อมูลนิสิตใหม่</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="ระบบตรวจสอบรายชื่อ ลงทะเบียน และข้อมูลสถิติ โครงการทิศทางเฟรชชี่ The Freshy Bearing 2569 มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตศรีราชา">
+    <meta name="keywords" content="The Freshy Bearing, ทิศทางเฟรชชี่, เกษตรศาสตร์, ศรีราชา, นิสิตใหม่, KU86, ตรวจสอบรายชื่อ">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Style CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Splatters and Corners for Aesthetic Scrapbook Vibe -->
+    <div class="scrapbook-decorations">
+        <div class="decor-corner top-left"></div>
+        <div class="decor-corner bottom-right"></div>
+        <div class="decor-splatter splatter-1"></div>
+        <div class="decor-splatter splatter-2"></div>
+    </div>
+
+    <div class="scrapbook-container">
+        <!-- Sidebar Navigation Styled as Bookmarks/Tabs -->
+        <aside class="scrapbook-sidebar">
+            <div class="sidebar-logo">
+                <img src="assets/images/compass.png" alt="Compass" class="rotating-compass">
+                <h3>THE FRESHY BEARING</h3>
+                <span class="ku-tag">KU 86 • KU SRC</span>
+            </div>
+            <nav class="sidebar-menu">
+                <button class="menu-tab active" data-target="dashboard-section" id="nav-dashboard">
+                    <i class="fa-solid fa-compass"></i>
+                    <span>หน้าหลัก & สถิติ</span>
+                </button>
+                <button class="menu-tab" data-target="search-section" id="nav-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <span>ตรวจสอบรายชื่อ</span>
+                </button>
+                <button class="menu-tab" data-target="schedule-section" id="nav-schedule">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span>กำหนดการกิจกรรม</span>
+                </button>
+                <button class="menu-tab" data-target="regions-section" id="nav-regions">
+                    <i class="fa-solid fa-map"></i>
+                    <span>ธีมกลุ่มกิจกรรม 4 ทิศ</span>
+                </button>
+
+            </nav>
+            <div class="sidebar-footer">
+                <p>องค์การบริหาร องค์การนิสิต<br>ม.เกษตรศาสตร์ วิทยาเขตศรีราชา</p>
+            </div>
+        </aside>
+
+        <!-- Main Scrapbook Pages -->
+        <main class="scrapbook-page-content">
+            <!-- Header Banner Page -->
+            <header class="page-header-banner">
+                <div class="header-overlay-stars"></div>
+                <div class="header-title-container">
+                    <img src="assets/images/ku_header.png" alt="KU Header Logo" class="ku-header-logo">
+                    <h1 class="header-main-title">โครงการทิศทางเฟรชชี่</h1>
+                    <h2 class="header-sub-title">The Freshy Bearing</h2>
+                </div>
+            </header>
+
+            <!-- SECTION 1: DASHBOARD & STATS -->
+            <section id="dashboard-section" class="content-section active">
+                <div class="scrapbook-page-title">
+                    <h2><span class="antique-number">01</span> แดชบอร์ด & สถิตินิสิตใหม่</h2>
+                    <img src="assets/images/paper_ribbon.png" class="title-ribbon" alt="Ribbon">
+                </div>
+
+                <!-- Real-time Countdown Banner -->
+                <div class="countdown-card">
+                    <div class="countdown-label">
+                        <i class="fa-solid fa-clock-rotate-left"></i> นับถอยหลังสู่วันกิจกรรม (Freshy Day - 27 มิ.ย. 2569)
+                    </div>
+                    <div class="countdown-timer" id="countdown-timer">
+                        <div class="time-block"><span id="days">00</span><label>วัน</label></div>
+                        <div class="time-block"><span id="hours">00</span><label>ชั่วโมง</label></div>
+                        <div class="time-block"><span id="minutes">00</span><label>นาที</label></div>
+                        <div class="time-block"><span id="seconds">00</span><label>วินาที</label></div>
+                    </div>
+                </div>
+
+                <!-- Stats Summary Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-user-graduate"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="stat-total-students">3,452</span>
+                            <span class="stat-label">นิสิตใหม่ลงทะเบียนเรียน</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-sun"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-value">1,726</span>
+                            <span class="stat-label">กลุ่มเช้า (Morning Session - คละคณะ)</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-moon"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-value">1,726</span>
+                            <span class="stat-label">กลุ่มบ่าย (Afternoon Session - คละคณะ)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Analytics Grid -->
+                <div class="charts-row">
+                    <div class="chart-container-card">
+                        <h3><i class="fa-solid fa-chart-pie"></i> สัดส่วนนิสิตแยกตามคณะ</h3>
+                        <div class="chart-wrapper">
+                            <canvas id="facultyChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-container-card">
+                        <h3><i class="fa-solid fa-chart-bar"></i> แผนการศึกษาที่เปิดสอน</h3>
+                        <div class="chart-wrapper">
+                            <canvas id="planChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-row">
+                    <div class="chart-container-card full-width">
+                        <h3><i class="fa-solid fa-chart-line"></i> รายละเอียดจำนวนนิสิตแยกตามสาขาวิชา</h3>
+                        <div class="chart-table-wrapper">
+                            <table class="vintage-table" id="majors-table">
+                                <thead>
+                                    <tr>
+                                        <th>สาขาวิชา</th>
+                                        <th>คณะ</th>
+                                        <th>จำนวน (คน)</th>
+                                        <th>สัดส่วน (%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated dynamically via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: SEARCH / CHECK REGISTRATION -->
+            <section id="search-section" class="content-section">
+                <div class="scrapbook-page-title">
+                    <h2><span class="antique-number">02</span> ตรวจสอบสิทธิ์และข้อมูลกลุ่มกิจกรรม</h2>
+                    <img src="assets/images/paper_ribbon.png" class="title-ribbon" alt="Ribbon">
+                </div>
+
+                <!-- Search Input Page -->
+                <div class="search-panel">
+                    <p class="search-helper-text">กรอกรหัสนิสิต 10 หลัก (เช่น 6930100013) หรือชื่อ-นามสกุล เพื่อค้นหาข้อมูลกลุ่มกิจกรรมและด่านทิศทางของคุณ</p>
+                    
+                    <div class="search-input-group">
+                        <img src="assets/images/magnifying_glass.png" alt="Magnifier" class="search-magnifier">
+                        <input type="text" id="search-input" placeholder="พิมพ์รหัสนิสิต หรือชื่อ-นามสกุล..." autocomplete="off">
+                        <button id="search-btn" class="vintage-btn">ค้นหา</button>
+                    </div>
+
+                    <!-- Faculty Quick Filter Chips -->
+                    <div class="filter-chips">
+                        <span class="chip-label">กรองคณะ:</span>
+                        <button class="filter-chip active" data-faculty="all">ทั้งหมด</button>
+                        <button class="filter-chip" data-faculty="วิทยาการจัดการ">วิทยาการจัดการ</button>
+                        <button class="filter-chip" data-faculty="วิศวกรรมศาสตร์ศรีราชา">วิศวกรรมศาสตร์</button>
+                        <button class="filter-chip" data-faculty="วิทยาศาสตร์ศรีราชา">วิทยาศาสตร์</button>
+                        <button class="filter-chip" data-faculty="พาณิชยนาวีนานาชาติ">พาณิชยนาวี</button>
+                        <button class="filter-chip" data-faculty="คณะเศรษฐศาสตร์">คณะเศรษฐศาสตร์</button>
+                    </div>
+                </div>
+
+                <!-- Search Results -->
+                <div class="search-results-container">
+                    <div class="results-info" id="results-count-text">พร้อมค้นหารายชื่อจากฐานข้อมูล 3,452 คน</div>
+                    
+                    <div class="results-grid" id="search-results">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+                </div>
+
+                <!-- Modal for Detailed Student passport/ticket -->
+                <div class="modal" id="student-modal">
+                    <div class="modal-content">
+                        <button class="modal-close-btn" id="modal-close">&times;</button>
+                        <div id="modal-ticket-placeholder">
+                            <!-- Beautiful ticket goes here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: DETAILED SCHEDULE -->
+            <section id="schedule-section" class="content-section">
+                <div class="scrapbook-page-title">
+                    <h2><span class="antique-number">03</span> กำหนดการโครงการทิศทางเฟรชชี่</h2>
+                    <img src="assets/images/paper_ribbon.png" class="title-ribbon" alt="Ribbon">
+                </div>
+
+                <div class="schedule-intro-text">
+                    <p><i class="fa-solid fa-circle-info"></i> วันกิจกรรมใหญ่แบ่งออกเป็น 2 ช่วงเวลาหลักใน **วันเสาร์ที่ 27 มิถุนายน พ.ศ. 2569** และคอนเสิร์ตใหญ่ **วันพฤหัสบดีที่ 2 กรกฎาคม พ.ศ. 2569**</p>
+                </div>
+
+                <!-- Schedule Selection Tabs -->
+                <div class="schedule-selector-tabs">
+                    <button class="schedule-tab active" data-target="schedule-freshy-day">Freshy Day (27 มิ.ย. 69)</button>
+                    <button class="schedule-tab" data-target="schedule-freshy-night">Freshy Night (2 ก.ค. 69)</button>
+                </div>
+
+                <!-- Freshy Day Schedules (Parallel View for Morning & Afternoon Groups) -->
+                <div id="schedule-freshy-day" class="schedule-content active">
+                    <div class="groups-schedule-container">
+                        <!-- Group Morning -->
+                        <div class="group-schedule-block morning-group">
+                            <div class="group-header">
+                                <i class="fa-solid fa-sun"></i>
+                                <h3>กลุ่มเช้า (Morning Group)</h3>
+                                <span>คละคณะวิชา (กลุ่มสุ่มรอบเช้า)</span>
+                            </div>
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="time">09.00 - 09.30 น.</div>
+                                    <div class="desc">
+                                        <h4>ลงทะเบียนพร้อมแจกป้ายชื่อ</h4>
+                                        <p>นิสิตใหม่รอบเช้า ลงทะเบียนเข้าร่วมกิจกรรมและรับป้ายชื่อระบุทิศทางกิจกรรมตามสิทธิ์ที่ได้สุ่มไว้</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="time">09.30 - 09.40 น.</div>
+                                    <div class="desc">
+                                        <h4>พิธีเปิดโครงการทิศทางเฟรชชี่</h4>
+                                        <p>กล่าววัตถุประสงค์โดยหัวหน้าโครงการ และรองอธิการบดีวิทยาเขตศรีราชากล่าวเปิดงาน</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="time">09.40 - 11.00 น.</div>
+                                    <div class="desc">
+                                        <h4>กิจกรรมสอนน้องร้องเพลง</h4>
+                                        <p>ร่วมกันเรียนรู้ประวัติศาสตร์มหาวิทยาลัย (5 นาที) และฝึกร้องเพลงเกษตรศาสตร์และเพลงนนทรีประจำวิทยาเขต</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="time">11.00 - 11.20 น.</div>
+                                    <div class="desc">
+                                        <h4>รับประทานอาหารว่าง</h4>
+                                        <p>แจกจ่ายของว่างและเครื่องดื่มให้แก่นิสิตใหม่เพื่อเตรียมตัวเข้าด่านสัมพันธ์</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="time">11.20 - 13.20 น.</div>
+                                    <div class="desc">
+                                        <h4>กิจกรรม Ice Breaking / สัมพันธ์กลุ่ม 4 ทิศ</h4>
+                                        <p>นิสิตใหม่เข้าร่วมกิจกรรมสัมพันธ์กระชับมิตรและสันทนาการร่วมกับสมาชิกในธีมกลุ่มของตนเอง</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item highlight">
+                                    <div class="time">13.20 - 14.20 น.</div>
+                                    <div class="desc">
+                                        <h4>กิจกรรมแปรอักษรกลุ่มเช้า</h4>
+                                        <p>แปรอักษรสัญลักษณ์แห่งความสามัคคีของนิสิตใหม่ KU86 บนอัฒจันทร์/ลานกิจกรรม และสิ้นสุดกิจกรรมรอบเช้า</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Group Afternoon -->
+                        <div class="group-schedule-block afternoon-group">
+                            <div class="group-header">
+                                <i class="fa-solid fa-moon"></i>
+                                <h3>กลุ่มบ่าย (Afternoon Group)</h3>
+                                <span>คละคณะวิชา (กลุ่มสุ่มรอบบ่าย)</span>
+                            </div>
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="time">15.20 - 15.50 น.</div>
+                                    <div class="desc">
+                                        <h4>ลงทะเบียนพร้อมแจกป้ายชื่อ</h4>
+                                        <p>นิสิตใหม่รอบบ่าย ลงทะเบียนเข้าร่วมกิจกรรมและรับป้ายชื่อระบุทิศทางกิจกรรมตามสิทธิ์ที่ได้สุ่มไว้</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="time">15.50 - 16.00 น.</div>
+                                    <div class="desc">
+                                        <h4>พิธีเปิดโครงการทิศทางเฟรชชี่ (รอบบ่าย)</h4>
+                                        <p>กล่าวต้อนรับน้องใหม่เข้าสู่รั้วนนทรีทักษิณโดยผู้บริหารและรุ่นพี่คณะ</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="time">16.00 - 17.20 น.</div>
+                                    <div class="desc">
+                                        <h4>กิจกรรมสอนน้องร้องเพลง</h4>
+                                        <p>ฝึกขับขานบทเพลงสถาบันและเพลงนนทรีเพื่อใช้ในพิธีการต่างๆ และสร้างพลังร่วมกัน</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="time">17.20 - 17.40 น.</div>
+                                    <div class="desc">
+                                        <h4>รับประทานอาหารว่าง</h4>
+                                        <p>พักผ่อนพูดคุยทำความรู้จักกันระหว่างเพื่อนในกลุ่ม และรับกล่องของว่าง</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="time">17.40 - 19.40 น.</div>
+                                    <div class="desc">
+                                        <h4>กิจกรรม Ice Breaking / สัมพันธ์กลุ่ม 4 ทิศ</h4>
+                                        <p>เรียนรู้วัฒนธรรมและแนวคิดประจำกลุ่มผ่านกิจกรรมความสัมพันธ์และสันทนาการแบบย้อนยุค</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item highlight">
+                                    <div class="time">19.40 - 20.40 น.</div>
+                                    <div class="desc">
+                                        <h4>กิจกรรมแปรอักษรกลุ่มบ่าย</h4>
+                                        <p>ร่วมใจแปรอักษรใต้แสงเทียนและแสงไฟยามค่ำคืน สะท้อนความงดงามและสิ้นสุดกิจกรรมรอบบ่าย</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Freshy Night Schedule -->
+                <div id="schedule-freshy-night" class="schedule-content">
+                    <div class="freshy-night-container">
+                        <div class="freshy-night-header">
+                            <i class="fa-solid fa-guitar"></i>
+                            <h3>Freshy Night Concert (2 ก.ค. 69)</h3>
+                            <span>กิจกรรมฉลองต้อนรับน้องใหม่ ณ ลานเวทีกลางกลางแจ้ง</span>
+                        </div>
+                        <div class="timeline linear">
+                            <div class="timeline-item">
+                                <div class="time">18.00 - 19.00 น.</div>
+                                <div class="desc">
+                                    <h4>ลงทะเบียนเข้าร่วมกิจกรรม</h4>
+                                    <p>เปิดจุดลงทะเบียนบริเวณทางเข้างาน พร้อมรับของที่ระลึกพิเศษสำหรับผู้เข้าร่วม</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="time">18.00 - 19.20 น.</div>
+                                <div class="desc">
+                                    <h4>กิจกรรมนันทนาการและแสดงบนเวที</h4>
+                                    <p>การแสดงของชมรมดนตรีสากล สโมสรนิสิต และวงดนตรีจากรุ่นพี่คณะต่างๆ</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item artist">
+                                <div class="time">19.20 - 20.20 น.</div>
+                                <div class="desc">
+                                    <h4><i class="fa-solid fa-star"></i> การแสดงจากศิลปินรับเชิญวงที่ 1</h4>
+                                    <p>สนุกสนานกับคอนเสิร์ตจากศิลปินรับเชิญยอดนิยมวงแรก เพื่อปลดปล่อยความสนุกแบบเต็มพิกัด</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="time">20.20 - 20.40 น.</div>
+                                <div class="desc">
+                                    <h4>กิจกรรมอินเตอร์แอคทีฟบนเวที</h4>
+                                    <p>การเล่นเกมแจกของรางวัลสุดพรีเมียมจากผู้สนับสนุน และสุ่มจับรางวัลผู้โชคดี</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item artist">
+                                <div class="time">20.40 - 21.40 น.</div>
+                                <div class="desc">
+                                    <h4><i class="fa-solid fa-star"></i> การแสดงจากศิลปินรับเชิญวงที่ 2</h4>
+                                    <p>ไฮไลต์ปิดท้ายค่ำคืนกับคอนเสิร์ตจัดเต็มสุดประทับใจส่งท้ายสัปดาห์เฟรชชี่</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="time">21.40 - 22.00 น.</div>
+                                <div class="desc">
+                                    <h4>เสร็จสิ้นโครงการพร้อมประเมิน</h4>
+                                    <p>กล่าวปิดงานโดยประธานองค์การนิสิต สแกนคิวอาร์โค้ดประเมินโครงการ และแยกย้ายเดินทางกลับอย่างปลอดภัย</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: 4 DIRECTIONS REGIONS -->
+            <section id="regions-section" class="content-section">
+                <div class="scrapbook-page-title">
+                    <h2><span class="antique-number">04</span> ธีมการสุ่มแบ่งกลุ่มกิจกรรม 4 ทิศ</h2>
+                    <img src="assets/images/paper_ribbon.png" class="title-ribbon" alt="Ribbon">
+                </div>
+
+                <p class="regions-intro">เพื่อเป็นการกระชับความสัมพันธ์และเรียนรู้ทักษะชีวิตในมหาวิทยาลัย นิสิตใหม่ทุกคนจะถูกสุ่มแบ่งออกเป็น 4 ทีมตามธีมทิศทางลมของกังหันลม (The Freshy Bearing) โดยแต่ละทีมจะมีธีมประจำกลุ่มและคณะผู้ดูแลกิจกรรมหลัก ดังนี้</p>
+
+                <div class="regions-grid">
+                    <!-- Nort Region -->
+                    <div class="region-info-card text-nort">
+                        <div class="region-card-img-wrapper">
+                            <img src="assets/images/card_nort.png" alt="Nort Region Card" class="region-badge">
+                        </div>
+                        <div class="region-detail">
+                            <h3>ทิศเหนือ (Nort)</h3>
+                            <span class="associated-faculty faculty-sci">คณะผู้ดูแลประจำธีม: คณะวิทยาศาสตร์ศรีราชา</span>
+                            <p class="region-desc">สัญลักษณ์ของยอดเขาสูง ป่าสนเขียวชะอุ่ม และดวงดาวระยิบระยับ เปรียบเสมือนปัญญาและการเดินทางแสวงหาความรู้ทางวิทยาศาสตร์</p>
+                            <div class="region-majors-list">
+                                <strong>สมาชิกกลุ่มกิจกรรม:</strong>
+                                <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4; font-family: Sarabun;">
+                                    นิสิตใหม่ KU86 สุ่มคละจากทุกคณะวิชา (วิทยาการจัดการ, วิศวกรรมศาสตร์, วิทยาศาสตร์, พาณิชยนาวี, เศรษฐศาสตร์)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- South Region -->
+                    <div class="region-info-card text-south">
+                        <div class="region-card-img-wrapper">
+                            <img src="assets/images/card_south.png" alt="South Region Card" class="region-badge">
+                        </div>
+                        <div class="region-detail">
+                            <h3>ทิศใต้ (South)</h3>
+                            <span class="associated-faculty faculty-mar">คณะผู้ดูแลประจำธีม: คณะพาณิชยนาวีนานาชาติ</span>
+                            <p class="region-desc">สัญลักษณ์ของท้องทะเลสีฟ้าคราม หาดทรายระยิบระยับ ปลาดาว และประภาคารนำทางของนักเดินเรือ มุ่งเน้นการขนส่ง โลจิสติกส์ และความเชี่ยวชาญทางสมุทรศาสตร์</p>
+                            <div class="region-majors-list">
+                                <strong>สมาชิกกลุ่มกิจกรรม:</strong>
+                                <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4; font-family: Sarabun;">
+                                    นิสิตใหม่ KU86 สุ่มคละจากทุกคณะวิชา (วิทยาการจัดการ, วิศวกรรมศาสตร์, วิทยาศาสตร์, พาณิชยนาวี, เศรษฐศาสตร์)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ISAN Region -->
+                    <div class="region-info-card text-isan">
+                        <div class="region-card-img-wrapper">
+                            <img src="assets/images/card_isan.png" alt="ISAN Region Card" class="region-badge">
+                        </div>
+                        <div class="region-detail">
+                            <h3>ทิศอีสาน (ISAN)</h3>
+                            <span class="associated-faculty faculty-eng">คณะผู้ดูแลประจำธีม: คณะวิศวกรรมศาสตร์ศรีราชา</span>
+                            <p class="region-desc">สัญลักษณ์ของทุ่งรวงข้าวสีทอง หุ่นไล่กา และลมอุ่นยามเย็น สะท้อนถึงการก่อสร้าง เทคโนโลยีการผลิต และการขับเคลื่อนทางโครงสร้างวิศวกรรมในภาคอีสานและประเทศ</p>
+                            <div class="region-majors-list">
+                                <strong>สมาชิกกลุ่มกิจกรรม:</strong>
+                                <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4; font-family: Sarabun;">
+                                    นิสิตใหม่ KU86 สุ่มคละจากทุกคณะวิชา (วิทยาการจัดการ, วิศวกรรมศาสตร์, วิทยาศาสตร์, พาณิชยนาวี, เศรษฐศาสตร์)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Central Region -->
+                    <div class="region-info-card text-central">
+                        <div class="region-card-img-wrapper">
+                            <img src="assets/images/card_central.png" alt="Central Region Card" class="region-badge">
+                        </div>
+                        <div class="region-detail">
+                            <h3>ทิศกลาง (Central)</h3>
+                            <span class="associated-faculty faculty-ms">คณะผู้ดูแลประจำธีม: คณะวิทยาการจัดการ และ คณะเศรษฐศาสตร์</span>
+                            <p class="region-desc">สัญลักษณ์ของแม่น้ำสายใหญ่ ดอกบัวหลวงสีชมพู และประทีปลอยน้ำ เปรียบเสมือนศูนย์กลางการค้า การจัดการธุรกิจ การบัญชี และระบบเศรษฐกิจหลักที่สำคัญ</p>
+                            <div class="region-majors-list">
+                                <strong>สมาชิกกลุ่มกิจกรรม:</strong>
+                                <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4; font-family: Sarabun;">
+                                    นิสิตใหม่ KU86 สุ่มคละจากทุกคณะวิชา (วิทยาการจัดการ, วิศวกรรมศาสตร์, วิทยาศาสตร์, พาณิชยนาวี, เศรษฐศาสตร์)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Student Data Script -->
+    <script src="assets/js/data.js"></script>
+    <!-- App Script -->
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
