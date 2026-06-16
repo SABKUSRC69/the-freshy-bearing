@@ -358,7 +358,21 @@ document.addEventListener('DOMContentLoaded', () => {
         searchResultsGrid.innerHTML = '';
 
         if (query === '') {
-            resultsCountText.textContent = "กรุณากรอกรหัสนิสิต หรือชื่อ-นามสกุล เพื่อค้นหาข้อมูล";
+            resultsCountText.textContent = "กรุณากรอกรหัสนิสิต 10 หลัก หรือชื่อ-นามสกุล เพื่อค้นหาข้อมูล";
+            return;
+        }
+
+        // PDPA Privacy Protection:
+        // 1. If query is numeric (student ID), it must be exactly 10 digits.
+        const isNumeric = /^\d+$/.test(query);
+        if (isNumeric && query.length !== 10) {
+            resultsCountText.textContent = "กรุณากรอกรหัสนิสิตให้ครบ 10 หลัก (เช่น 6930100013)";
+            return;
+        }
+
+        // 2. If query is text (name/surname), it must be at least 3 characters long.
+        if (!isNumeric && query.length < 3) {
+            resultsCountText.textContent = "กรุณากรอกชื่อหรือนามสกุลอย่างน้อย 3 ตัวอักษรเพื่อค้นหา";
             return;
         }
 
@@ -368,7 +382,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const major = row[4];
             const faculty = getFacultyByMajor(major);
 
-            const matchesQuery = sid.includes(query) || fullName.includes(query);
+            // Exact match for student ID, substring match for name
+            const matchesQuery = (isNumeric && sid === query) || (!isNumeric && (row[2].toLowerCase().includes(query) || row[3].toLowerCase().includes(query)));
             const matchesFilter = activeFilter === 'all' || faculty === activeFilter;
 
             return matchesQuery && matchesFilter;
