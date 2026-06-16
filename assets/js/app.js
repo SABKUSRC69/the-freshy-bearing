@@ -366,7 +366,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 1. If query is numeric (student ID), it must be exactly 10 digits.
         const isNumeric = /^\d+$/.test(query);
         if (isNumeric && query.length !== 10) {
-            resultsCountText.textContent = "กรุณากรอกรหัสนิสิตให้ครบ 10 หลัก (เช่น 6930100013)";
+            resultsCountText.textContent = "กรุณากรอกรหัสนิสิตให้ครบ 10 หลัก (เช่น 6930XXXXXX)";
             return;
         }
 
