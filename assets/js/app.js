@@ -596,8 +596,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 `${row.prefix}${row.name} ${row.surname} (${row.nickname})` : 
                 `${row.prefix}${row.name} ${row.surname}`;
                 
-            const roleLabel = row.role === 'subcommittee' ? 'อนุกรรมการ (SUB-COMMITTEE)' : 'สตาฟ (STAFF)';
-            const roleIcon = row.role === 'subcommittee' ? 'fa-solid fa-user-gear' : 'fa-solid fa-id-card';
+            const roleLabel = row.role === 'subcommittee' ? 'สตาฟ (อนุกรรมการ)' : 'สตาฟ (STAFF)';
+            const roleIcon = 'fa-solid fa-id-card';
 
             card.innerHTML = `
                 <span class="src-id">${row.id}</span>
@@ -625,11 +625,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showStaffTicket(row) {
         const isSubcomm = row.role === 'subcommittee';
-        const roleHeader = isSubcomm ? 'SUB-COMMITTEE' : 'STAFF';
-        const stubHeader = isSubcomm ? 'อนุกรรมการ' : 'STAFF';
+        const roleHeader = 'STAFF';
+        const stubHeader = 'STAFF';
         const stubSubtitle = isSubcomm ? row.position : 'ฝ่ายงานผู้ดูแลระบบ';
-        const teamBadgeLabel = isSubcomm ? 'อนุกรรมการ' : 'ทีมสตาฟ';
-        const stubIcon = isSubcomm ? 'fa-solid fa-user-gear' : 'fa-solid fa-id-badge';
+        const teamBadgeLabel = 'ทีมสตาฟ';
+        const stubIcon = 'fa-solid fa-id-badge';
 
         ticketPlaceholder.innerHTML = `
             <div class="freshy-ticket staff-theme">
@@ -978,7 +978,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const sid = row.id;
                 const name = row.prefix + row.name + " " + row.surname;
                 const nick = row.nickname || "-";
-                const typeLabel = row.role === 'subcommittee' ? '<span class="admin-type-badge subcomm-badge">อนุกรรมการ</span>' : '<span class="admin-type-badge staff-badge">Staff</span>';
+                const typeLabel = row.role === 'subcommittee' ? '<span class="admin-type-badge subcomm-badge">สตาฟ (อนุกรรมการ)</span>' : '<span class="admin-type-badge staff-badge">สตาฟ (หลัก)</span>';
                 const position = row.position;
                 
                 tr.innerHTML = `
