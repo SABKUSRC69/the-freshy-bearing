@@ -1647,13 +1647,7 @@ body {
     }
 
     .ticket-body::after {
-        border-left: none;
-        border-top: 2px dashed var(--border-warm);
-        left: 0;
-        right: 0;
-        top: 200px;
-        height: 2px;
-        width: 100%;
+        display: none; /* Hide absolute separator on mobile */
     }
 
     .ticket-notch {
@@ -1664,6 +1658,8 @@ body {
         width: 100%;
         padding-right: 0;
         padding-bottom: 25px;
+        border-bottom: 2px dashed var(--border-warm);
+        margin-bottom: 20px;
     }
 
     .ticket-stub {
@@ -2140,6 +2136,10 @@ body {
 
 .freshy-ticket.staff-theme .ticket-body::after {
     border-left-color: rgba(255, 255, 255, 0.15);
+}
+
+.freshy-ticket.staff-theme .ticket-main {
+    border-bottom-color: rgba(255, 255, 255, 0.15);
 }
 
 .freshy-ticket.staff-theme .stub-group-badge h4 {
