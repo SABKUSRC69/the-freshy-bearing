@@ -107,7 +107,7 @@ const STAFF_DATA = [
         "name": "กรวิชญ์",
         "surname": "ไชยแสง",
         "position": "จัดหาเงินทุน และ วจก.",
-        "nickname": "นิค",
+        "nickname": "นิก",
         "role": "staff"
     },
     {
@@ -124,7 +124,7 @@ const STAFF_DATA = [
         "prefix": "นางสาว",
         "name": "ชลธิชา",
         "surname": "ศรีชำนาญ",
-        "position": "ฝ่ายโสตและสถานที่",
+        "position": "ฝ่ายโสตและสถานที่(หัวใจนาวี)",
         "nickname": "ลูกปลา",
         "role": "staff"
     },
