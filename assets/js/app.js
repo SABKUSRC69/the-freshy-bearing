@@ -593,7 +593,7 @@ document.addEventListener('DOMContentLoaded', () => {
             card.className = 'student-result-card';
             
             const displayName = row.nickname ? 
-                `${row.prefix}${row.name} ${row.surname} (พี่${row.nickname})` : 
+                `${row.prefix}${row.name} ${row.surname} (${row.nickname})` : 
                 `${row.prefix}${row.name} ${row.surname}`;
                 
             const roleLabel = row.role === 'subcommittee' ? 'อนุกรรมการ (SUB-COMMITTEE)' : 'สตาฟ (STAFF)';
@@ -659,7 +659,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             
                             <div class="ticket-field">
                                 <label>ชื่อเล่น (NICKNAME)</label>
-                                <span>${row.nickname ? 'พี่' + row.nickname : '-'}</span>
+                                <span>${row.nickname || '-'}</span>
                             </div>
                             
                             <div class="ticket-field full-width">
@@ -977,7 +977,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (userType === 'staff') {
                 const sid = row.id;
                 const name = row.prefix + row.name + " " + row.surname;
-                const nick = row.nickname ? "พี่" + row.nickname : "-";
+                const nick = row.nickname || "-";
                 const typeLabel = row.role === 'subcommittee' ? '<span class="admin-type-badge subcomm-badge">อนุกรรมการ</span>' : '<span class="admin-type-badge staff-badge">Staff</span>';
                 const position = row.position;
                 
