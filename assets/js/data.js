@@ -156,6 +156,15 @@ const STAFF_DATA = [
         "role": "staff"
     },
     {
+        "id": "SAB69",
+        "prefix": "นาย",
+        "name": "ธนวัฒน์",
+        "surname": "เตชะอำไพ",
+        "position": "ที่ปรึกษาโครงการ",
+        "nickname": "แจ็ค",
+        "role": "staff"
+    },
+    {
         "id": "6730108592",
         "prefix": "น.ส.",
         "name": "อัชฌา",

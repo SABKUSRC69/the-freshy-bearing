@@ -541,7 +541,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Staff database is missing.");
             return;
         }
-        const query = staffSearchInput.value.trim();
+        const query = staffSearchInput.value.trim().toUpperCase();
         staffSearchResultsGrid.innerHTML = '';
 
         if (query === '') {
@@ -552,16 +552,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // PDPA Privacy Protection:
-        // Must be exactly 10 digits numeric student ID.
-        const isValidStudentId = /^\d{10}$/.test(query);
-        if (!isValidStudentId) {
+        // Must be exactly 10 digits numeric student ID OR a custom search code from STAFF_DATA
+        const isCustomCode = STAFF_DATA.some(row => row.id.toUpperCase() === query && !/^\d{10}$/.test(row.id));
+        const isValidId = /^\d{10}$/.test(query) || isCustomCode;
+        if (!isValidId) {
             staffResultsCountText.textContent = "กรุณากรอกรหัสนิสิตให้ถูกต้องและครบ 10 หลัก (เช่น 6630XXXXXX)";
             return;
         }
 
         const filtered = STAFF_DATA.filter(row => {
-            const sid = String(row.id);
-            // Exact match for student ID only
+            const sid = String(row.id).toUpperCase();
+            // Exact match for student ID or custom search code
             return sid === query;
         });
 
@@ -612,7 +613,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const isSubcomm = row.role === 'subcommittee';
         const roleHeader = 'STAFF';
         const stubHeader = 'STAFF';
-        const stubSubtitle = isSubcomm ? row.position : 'ฝ่ายงานผู้ดูแลระบบ';
+        const stubSubtitle = (isSubcomm || row.position === 'ที่ปรึกษาโครงการ') ? row.position : 'ฝ่ายงานผู้ดูแลระบบ';
         const teamBadgeLabel = 'ทีมสตาฟ';
         const stubIcon = 'fa-solid fa-id-badge';
 
