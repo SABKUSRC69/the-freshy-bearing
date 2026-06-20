@@ -354,36 +354,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function runSearch() {
-        const query = searchInput.value.trim().toLowerCase();
+        const query = searchInput.value.trim();
         searchResultsGrid.innerHTML = '';
 
         if (query === '') {
-            resultsCountText.textContent = "กรุณากรอกรหัสนิสิต 10 หลัก หรือชื่อ-นามสกุล เพื่อค้นหาข้อมูล";
+            resultsCountText.textContent = "กรุณากรอกรหัสนิสิต 10 หลักเพื่อค้นหาข้อมูล";
             return;
         }
 
         // PDPA Privacy Protection:
-        // 1. If query is numeric (student ID), it must be exactly 10 digits.
-        const isNumeric = /^\d+$/.test(query);
-        if (isNumeric && query.length !== 10) {
-            resultsCountText.textContent = "กรุณากรอกรหัสนิสิตให้ครบ 10 หลัก (เช่น 6930XXXXXX)";
-            return;
-        }
-
-        // 2. If query is text (name/surname), it must be at least 3 characters long.
-        if (!isNumeric && query.length < 3) {
-            resultsCountText.textContent = "กรุณากรอกชื่อหรือนามสกุลอย่างน้อย 3 ตัวอักษรเพื่อค้นหา";
+        // Must be exactly 10 digits numeric student ID.
+        const isValidStudentId = /^\d{10}$/.test(query);
+        if (!isValidStudentId) {
+            resultsCountText.textContent = "กรุณากรอกรหัสนิสิตให้ถูกต้องและครบ 10 หลัก (เช่น 6930XXXXXX)";
             return;
         }
 
         const filtered = STUDENT_DATA.filter(row => {
             const sid = String(row[0]);
-            const fullName = (row[2] + " " + row[3]).toLowerCase();
             const major = row[4];
             const faculty = getFacultyByMajor(major);
 
-            // Exact match for student ID, substring match for name
-            const matchesQuery = (isNumeric && sid === query) || (!isNumeric && (row[2].toLowerCase().includes(query) || row[3].toLowerCase().includes(query)));
+            // Exact match for student ID only
+            const matchesQuery = (sid === query);
             const matchesFilter = activeFilter === 'all' || faculty === activeFilter;
 
             return matchesQuery && matchesFilter;
@@ -548,7 +541,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Staff database is missing.");
             return;
         }
-        const query = staffSearchInput.value.trim().toLowerCase();
+        const query = staffSearchInput.value.trim();
         staffSearchResultsGrid.innerHTML = '';
 
         if (query === '') {
@@ -558,26 +551,18 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const isNumeric = /^\d+$/.test(query);
-        if (isNumeric && query.length !== 10) {
-            staffResultsCountText.textContent = "กรุณากรอกรหัสนิสิตให้ครบ 10 หลัก (เช่น 6630XXXXXX)";
-            return;
-        }
-
-        if (!isNumeric && query.length < 2) {
-            staffResultsCountText.textContent = "กรุณากรอกตัวอักษรอย่างน้อย 2 ตัวเพื่อค้นหา";
+        // PDPA Privacy Protection:
+        // Must be exactly 10 digits numeric student ID.
+        const isValidStudentId = /^\d{10}$/.test(query);
+        if (!isValidStudentId) {
+            staffResultsCountText.textContent = "กรุณากรอกรหัสนิสิตให้ถูกต้องและครบ 10 หลัก (เช่น 6630XXXXXX)";
             return;
         }
 
         const filtered = STAFF_DATA.filter(row => {
             const sid = String(row.id);
-            const fullName = (row.prefix + row.name + " " + row.surname).toLowerCase();
-            const nickname = (row.nickname || '').toLowerCase();
-            return sid === query || 
-                   fullName.includes(query) || 
-                   row.name.toLowerCase().includes(query) || 
-                   row.surname.toLowerCase().includes(query) ||
-                   nickname.includes(query);
+            // Exact match for student ID only
+            return sid === query;
         });
 
         if (filtered.length === 0) {
