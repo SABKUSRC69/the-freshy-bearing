@@ -1532,31 +1532,118 @@ body {
 }
 
 @media (max-width: 768px) {
+    body {
+        padding: 0;
+    }
+
+    .scrapbook-decorations {
+        display: none;
+    }
+
+    .scrapbook-container {
+        height: 100vh;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .scrapbook-sidebar {
+        padding: 10px 15px;
+    }
+
+    .sidebar-logo {
+        gap: 10px;
+    }
+
+    .rotating-compass {
+        width: 40px;
+        height: 40px;
+    }
+
+    .sidebar-logo h3 {
+        font-size: 0.9rem;
+    }
+
+    .ku-tag {
+        font-size: 0.65rem;
+    }
+
     .header-main-title {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
     }
     
     .header-sub-title {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 
     .content-section {
-        padding: 20px;
+        padding: 15px;
+    }
+
+    .scrapbook-page-title {
+        margin-bottom: 20px;
+    }
+
+    .scrapbook-page-title h2 {
+        font-size: 1.2rem;
+    }
+
+    .antique-number {
+        font-size: 1.35rem;
+        padding-right: 8px;
+    }
+
+    .title-ribbon {
+        width: 180px;
+        bottom: -12px;
+    }
+
+    .countdown-card {
+        padding: 12px;
+        margin-bottom: 20px;
+    }
+
+    .countdown-timer {
+        gap: 8px;
+    }
+
+    .time-block {
+        min-width: 55px;
+        padding: 4px;
+    }
+
+    .time-block span {
+        font-size: 1.15rem;
+    }
+
+    .time-block label {
+        font-size: 0.6rem;
+    }
+
+    .stats-grid {
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .stat-card {
+        padding: 15px;
     }
 
     .charts-row {
         gap: 15px;
+        margin-bottom: 20px;
     }
 
     .chart-container-card {
         flex: 1 1 100%;
+        padding: 15px;
     }
 
     /* Ticket styling on mobile */
     .ticket-body {
         flex-direction: column;
         align-items: center;
-        padding: 20px;
+        padding: 15px;
     }
 
     .ticket-body::after {
@@ -1576,13 +1663,13 @@ body {
     .ticket-main {
         width: 100%;
         padding-right: 0;
-        padding-bottom: 30px;
+        padding-bottom: 25px;
     }
 
     .ticket-stub {
         width: 100%;
         padding-left: 0;
-        padding-top: 20px;
+        padding-top: 15px;
     }
 }
 
@@ -1595,15 +1682,39 @@ body {
     
     .sidebar-menu {
         width: 100%;
+        gap: 5px;
+    }
+
+    .menu-tab {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    .content-section {
+        padding: 10px;
+    }
+
+    .search-panel {
+        padding: 15px;
+    }
+
+    .search-input-group input {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+
+    .vintage-btn {
+        padding: 0 15px;
+        font-size: 0.85rem;
     }
 
     .time-block {
-        min-width: 50px;
-        padding: 5px;
+        min-width: 45px;
+        padding: 3px;
     }
 
     .time-block span {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
     
     .ticket-main-grid {
@@ -1844,6 +1955,10 @@ body {
     white-space: nowrap;
 }
 
+.admin-table tbody tr {
+    cursor: pointer;
+}
+
 .admin-table tbody tr:hover {
     background-color: #faf7f0;
 }
@@ -1923,3 +2038,142 @@ body {
 .error-shake {
     animation: shake 0.4s ease-in-out;
 }
+
+/* Staff Ticket Canva Theme Styles */
+.staff-ticket {
+    width: 380px;
+    height: 466px; /* Aspect ratio 515x632 -> 380 * 632 / 515 */
+    margin: 0 auto;
+    background-image: url('assets/images/card_staff.png');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    border-radius: 12px;
+    box-shadow: 0 15px 45px rgba(0,0,0,0.4);
+    border: 2px solid var(--color-gold);
+    overflow: hidden;
+}
+
+.staff-card-content {
+    position: absolute;
+    left: 15.73%;
+    top: 29.11%;
+    width: 66.21%;
+    height: 47.16%;
+    background-color: #ffffff; /* Cover the existing "staff" placeholder */
+    border-radius: 20px; /* Smooth rounded corners matching Canva */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.staff-badge {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: #1e1914; /* Deep brown */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+    border-bottom: 2px solid var(--color-gold);
+    padding-bottom: 2px;
+}
+
+.staff-name {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #1e1914;
+    margin-bottom: 6px;
+    line-height: 1.2;
+}
+
+.staff-id {
+    font-family: monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #6e624c;
+    background-color: rgba(203, 163, 88, 0.1);
+    padding: 1px 6px;
+    border-radius: 4px;
+    border: 1px dashed rgba(203, 163, 88, 0.4);
+    margin-bottom: 6px;
+}
+
+.staff-position {
+    font-family: 'Sarabun', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #8c7e65;
+    line-height: 1.3;
+}
+
+/* Horizontal Staff Boarding Pass Ticket Theme (เหมือนน้องๆ) */
+.freshy-ticket.staff-theme {
+    background-color: #1e1914;
+    background-image: linear-gradient(135deg, rgba(30, 25, 20, 0.95), rgba(40, 32, 20, 0.92)), url('assets/images/starry_sky.png');
+    border-color: var(--color-gold);
+}
+
+.freshy-ticket.staff-theme .ticket-header-strip {
+    background-image: linear-gradient(rgba(30, 25, 20, 0.4), rgba(30, 25, 20, 0.75)), url('assets/images/starry_sky.png');
+    background-position: center;
+    background-size: cover;
+    border-bottom-color: var(--color-gold);
+}
+
+.freshy-ticket.staff-theme .ticket-field label {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.freshy-ticket.staff-theme .ticket-field span {
+    color: #fdfcf9;
+}
+
+.freshy-ticket.staff-theme .ticket-field.student-id-field span {
+    color: var(--color-gold-light);
+}
+
+.freshy-ticket.staff-theme .ticket-body::after {
+    border-left-color: rgba(255, 255, 255, 0.15);
+}
+
+.freshy-ticket.staff-theme .stub-group-badge h4 {
+    color: #fdfcf9;
+}
+
+.freshy-ticket.staff-theme .stub-group-badge span {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.freshy-ticket.staff-theme .stub-group-badge i {
+    color: var(--color-gold-light);
+}
+
+/* Admin Type Badges */
+.admin-type-badge {
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.admin-type-badge.staff-badge {
+    background-color: rgba(203, 163, 88, 0.2);
+    color: var(--color-gold-light);
+    border: 1px solid var(--color-gold);
+}
+
+.admin-type-badge.subcomm-badge {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #e0dcd3;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
+

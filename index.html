@@ -21,7 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <!-- Style CSS -->
-    <link rel="stylesheet" href="style.css?v=1.6">
+    <link rel="stylesheet" href="style.css?v=1.7">
 </head>
 <body>
     <!-- Background Splatters and Corners for Aesthetic Scrapbook Vibe -->
@@ -57,6 +57,10 @@
                     <i class="fa-solid fa-map"></i>
                     <span>ธีมกลุ่มกิจกรรม 4 ทิศ</span>
                 </button>
+                <button class="menu-tab" data-target="staff-section" id="nav-staff">
+                    <i class="fa-solid fa-id-badge"></i>
+                    <span>ตรวจสอบรายชื่อ Staff</span>
+                </button>
                 <button class="menu-tab" data-target="admin-section" id="nav-admin">
                     <i class="fa-solid fa-lock"></i>
                     <span>ข้อมูลนิสิตทั้งหมด</span>
@@ -74,7 +78,7 @@
             <header class="page-header-banner">
                 <div class="header-overlay-stars"></div>
                 <div class="header-title-container">
-                    <img src="assets/images/ku_header.png?v=1.6" alt="KU Header Logo" class="ku-header-logo">
+                    <img src="assets/images/ku_header.png?v=1.7" alt="KU Header Logo" class="ku-header-logo">
                     <h1 class="header-main-title">โครงการทิศทางเฟรชชี่</h1>
                     <h2 class="header-sub-title">The Freshy Bearing</h2>
                 </div>
@@ -201,15 +205,6 @@
                     </div>
                 </div>
 
-                <!-- Modal for Detailed Student passport/ticket -->
-                <div class="modal" id="student-modal">
-                    <div class="modal-content">
-                        <button class="modal-close-btn" id="modal-close">&times;</button>
-                        <div id="modal-ticket-placeholder">
-                            <!-- Beautiful ticket goes here -->
-                        </div>
-                    </div>
-                </div>
             </section>
 
             <!-- SECTION 3: DETAILED SCHEDULE -->
@@ -332,7 +327,14 @@
                                     <div class="time">17.40 - 18.00 น.</div>
                                     <div class="desc">
                                         <h4>รับประทานอาหารว่าง</h4>
-                                        <p>พักผ่อนพูดคุยทำความรู้จักรับกล่องของว่าง และเดินทางกลับโดยสวัสดิภาพยามค่ำ</p>
+                                        <p>พักผ่อนพูดคุยทำความรู้จักรับกล่องของว่าง และเตรียมเดินทางกลับ</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item highlight">
+                                    <div class="time">18.00 น.</div>
+                                    <div class="desc">
+                                        <h4>สิ้นสุดกิจกรรม</h4>
+                                        <p>สิ้นสุดกิจกรรมในรอบบ่าย และเดินทางกลับโดยสวัสดิภาพ</p>
                                     </div>
                                 </div>
                             </div>
@@ -480,10 +482,38 @@
                 </div>
             </section>
 
-            <!-- SECTION 5: ADMIN MASTER LIST (PASSWORD LOCKED) -->
+            <!-- SECTION 5: STAFF PASS CHECKER -->
+            <section id="staff-section" class="content-section">
+                <div class="scrapbook-page-title">
+                    <h2><span class="antique-number">05</span> ตรวจสอบสิทธิ์ & ป้ายชื่อ Staff</h2>
+                    <img src="assets/images/paper_ribbon.png" class="title-ribbon" alt="Ribbon">
+                </div>
+
+                <!-- Staff Search Input Page -->
+                <div class="search-panel">
+                    <p class="search-helper-text">กรอกรหัสนิสิตสตาฟ 10 หลัก (เช่น 6630XXXXXX) หรือชื่อ-นามสกุล เพื่อตรวจสอบสิทธิ์และรับป้ายชื่อสำหรับ Staff</p>
+                    
+                    <div class="search-input-group">
+                        <img src="assets/images/magnifying_glass.png" alt="Magnifier" class="search-magnifier">
+                        <input type="text" id="staff-search-input" placeholder="พิมพ์รหัสนิสิต หรือชื่อ-นามสกุลของ Staff..." autocomplete="off">
+                        <button id="staff-search-btn" class="vintage-btn">ค้นหา</button>
+                    </div>
+                </div>
+
+                <!-- Staff Search Results -->
+                <div class="search-results-container">
+                    <div class="results-info" id="staff-results-count-text">พร้อมค้นหารายชื่อจากฐานข้อมูลสตาฟ 16 คน และอนุกรรมการ 38 คน</div>
+                    
+                    <div class="results-grid" id="staff-search-results">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 6: ADMIN MASTER LIST (PASSWORD LOCKED) -->
             <section id="admin-section" class="content-section">
                 <div class="scrapbook-page-title">
-                    <h2><span class="antique-number">05</span> รายชื่อนิสิตใหม่ทั้งหมด</h2>
+                    <h2><span class="antique-number">06</span> รายชื่อข้อมูลทั้งหมด</h2>
                     <img src="assets/images/paper_ribbon.png" class="title-ribbon" alt="Ribbon">
                 </div>
 
@@ -518,6 +548,13 @@
                             <input type="text" id="admin-search-input" placeholder="ค้นหา รหัสนิสิต หรือ ชื่อ-นามสกุล...">
                         </div>
                         <div class="toolbar-filters">
+                            <div class="filter-group">
+                                <label for="admin-filter-usertype">ประเภทบุคคล:</label>
+                                <select id="admin-filter-usertype">
+                                    <option value="student">นิสิตใหม่ (Freshy)</option>
+                                    <option value="staff">ทีมสตาฟ (Staff)</option>
+                                </select>
+                            </div>
                             <div class="filter-group">
                                 <label for="admin-filter-faculty">คณะ:</label>
                                 <select id="admin-filter-faculty">
@@ -588,9 +625,19 @@
         </main>
     </div>
 
+    <!-- Modal for Detailed Student passport/ticket (Global) -->
+    <div class="modal" id="student-modal">
+        <div class="modal-content">
+            <button class="modal-close-btn" id="modal-close">&times;</button>
+            <div id="modal-ticket-placeholder">
+                <!-- Beautiful ticket goes here -->
+            </div>
+        </div>
+    </div>
+
     <!-- Student Data Script -->
     <script src="assets/js/data.js"></script>
     <!-- App Script -->
-    <script src="assets/js/app.js?v=1.6"></script>
+    <script src="assets/js/app.js?v=1.7"></script>
 </body>
 </html>

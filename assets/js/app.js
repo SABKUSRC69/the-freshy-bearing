@@ -530,6 +530,165 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Staff Search / Checker Functionality
+    const staffSearchInput = document.getElementById('staff-search-input');
+    const staffSearchBtn = document.getElementById('staff-search-btn');
+    const staffSearchResultsGrid = document.getElementById('staff-search-results');
+    const staffResultsCountText = document.getElementById('staff-results-count-text');
+
+    // Dynamic initial count setup
+    if (staffResultsCountText && typeof STAFF_DATA !== 'undefined') {
+        const staffCount = STAFF_DATA.filter(r => r.role === 'staff').length;
+        const subcommCount = STAFF_DATA.filter(r => r.role === 'subcommittee').length;
+        staffResultsCountText.textContent = `พร้อมค้นหารายชื่อจากฐานข้อมูลสตาฟ ${staffCount} คน และอนุกรรมการ ${subcommCount} คน`;
+    }
+
+    function runStaffSearch() {
+        if (typeof STAFF_DATA === 'undefined') {
+            console.error("Staff database is missing.");
+            return;
+        }
+        const query = staffSearchInput.value.trim().toLowerCase();
+        staffSearchResultsGrid.innerHTML = '';
+
+        if (query === '') {
+            const staffCount = STAFF_DATA.filter(r => r.role === 'staff').length;
+            const subcommCount = STAFF_DATA.filter(r => r.role === 'subcommittee').length;
+            staffResultsCountText.textContent = `พร้อมค้นหารายชื่อจากฐานข้อมูลสตาฟ ${staffCount} คน และอนุกรรมการ ${subcommCount} คน`;
+            return;
+        }
+
+        const isNumeric = /^\d+$/.test(query);
+        if (isNumeric && query.length !== 10) {
+            staffResultsCountText.textContent = "กรุณากรอกรหัสนิสิตให้ครบ 10 หลัก (เช่น 6630XXXXXX)";
+            return;
+        }
+
+        if (!isNumeric && query.length < 2) {
+            staffResultsCountText.textContent = "กรุณากรอกตัวอักษรอย่างน้อย 2 ตัวเพื่อค้นหา";
+            return;
+        }
+
+        const filtered = STAFF_DATA.filter(row => {
+            const sid = String(row.id);
+            const fullName = (row.prefix + row.name + " " + row.surname).toLowerCase();
+            const nickname = (row.nickname || '').toLowerCase();
+            return sid === query || 
+                   fullName.includes(query) || 
+                   row.name.toLowerCase().includes(query) || 
+                   row.surname.toLowerCase().includes(query) ||
+                   nickname.includes(query);
+        });
+
+        if (filtered.length === 0) {
+            staffResultsCountText.textContent = `ไม่พบผลการค้นหาสำหรับ "${query}"`;
+            staffSearchResultsGrid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary); font-family: 'Bai Jamjuree';">ไม่พบข้อมูลกรุณาตรวจสอบการสะกดคำ หรือรหัสนิสิต</div>`;
+            return;
+        }
+
+        staffResultsCountText.textContent = `พบรายชื่อทั้งหมด ${filtered.length} คน`;
+
+        filtered.forEach(row => {
+            const card = document.createElement('div');
+            card.className = 'student-result-card';
+            
+            const displayName = row.nickname ? 
+                `${row.prefix}${row.name} ${row.surname} (พี่${row.nickname})` : 
+                `${row.prefix}${row.name} ${row.surname}`;
+                
+            const roleLabel = row.role === 'subcommittee' ? 'อนุกรรมการ (SUB-COMMITTEE)' : 'สตาฟ (STAFF)';
+            const roleIcon = row.role === 'subcommittee' ? 'fa-solid fa-user-gear' : 'fa-solid fa-id-card';
+
+            card.innerHTML = `
+                <span class="src-id">${row.id}</span>
+                <span class="src-name">${displayName}</span>
+                <div class="src-meta">
+                    <span><i class="${roleIcon}" style="margin-right: 5px; color: var(--color-gold);"></i>${roleLabel}</span>
+                    <span>ตำแหน่ง: ${row.position}</span>
+                </div>
+            `;
+
+            card.addEventListener('click', () => {
+                showStaffTicket(row);
+            });
+
+            staffSearchResultsGrid.appendChild(card);
+        });
+    }
+
+    if (staffSearchBtn && staffSearchInput) {
+        staffSearchBtn.addEventListener('click', runStaffSearch);
+        staffSearchInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') runStaffSearch();
+        });
+    }
+
+    function showStaffTicket(row) {
+        const isSubcomm = row.role === 'subcommittee';
+        const roleHeader = isSubcomm ? 'SUB-COMMITTEE' : 'STAFF';
+        const stubHeader = isSubcomm ? 'อนุกรรมการ' : 'STAFF';
+        const stubSubtitle = isSubcomm ? row.position : 'ฝ่ายงานผู้ดูแลระบบ';
+        const teamBadgeLabel = isSubcomm ? 'อนุกรรมการ' : 'ทีมสตาฟ';
+        const stubIcon = isSubcomm ? 'fa-solid fa-user-gear' : 'fa-solid fa-id-badge';
+
+        ticketPlaceholder.innerHTML = `
+            <div class="freshy-ticket staff-theme">
+                <!-- Header strip -->
+                <div class="ticket-header-strip">
+                    <h3>THE FRESHY BEARING PASS</h3>
+                    <span>${roleHeader}</span>
+                </div>
+
+                <!-- Notches and ticket body -->
+                <div class="ticket-notch top"></div>
+                <div class="ticket-notch bottom"></div>
+                
+                <div class="ticket-body">
+                    <!-- Left Main Stub -->
+                    <div class="ticket-main">
+                        <div class="ticket-field student-id-field">
+                            <label>รหัสนิสิต (STUDENT ID)</label>
+                            <span>${row.id}</span>
+                        </div>
+                        
+                        <div class="ticket-main-grid">
+                            <div class="ticket-field">
+                                <label>ชื่อ - นามสกุล (NAME - SURNAME)</label>
+                                <span>${row.prefix}${row.name} ${row.surname}</span>
+                            </div>
+                            
+                            <div class="ticket-field">
+                                <label>ชื่อเล่น (NICKNAME)</label>
+                                <span>${row.nickname ? 'พี่' + row.nickname : '-'}</span>
+                            </div>
+                            
+                            <div class="ticket-field full-width">
+                                <label>ตำแหน่ง (POSITION)</label>
+                                <span>${row.position}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Ticket Stub -->
+                    <div class="ticket-stub">
+                        <div class="stub-group-badge">
+                            <i class="${stubIcon}"></i>
+                            <h4>${stubHeader}</h4>
+                            <span>${stubSubtitle}</span>
+                        </div>
+                        <div class="stub-team-badge" style="background-color: rgba(203,163,88,0.15); color: var(--color-gold-light); border-color: var(--color-gold-light);">
+                            ${teamBadgeLabel}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Compass watermark background -->
+                <div class="ticket-watermark"></div>
+            </div>
+        `;
+        modal.classList.add('active');
+    }
+
     // ----------------------------------------------------
     // 6. Admin Panel (Password Locked Master Student List)
     // ----------------------------------------------------
@@ -552,6 +711,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const adminFilterSession = document.getElementById('admin-filter-session');
     const adminTotalFiltered = document.getElementById('admin-total-filtered');
     const adminPaginationInfo = document.getElementById('admin-pagination-info');
+    const adminFilterUserType = document.getElementById('admin-filter-usertype');
 
     // Init state check
     if (isAdminUnlocked) {
@@ -629,6 +789,21 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Setup dashboard event listeners
         if (adminSearchInput) adminSearchInput.addEventListener('input', applyAdminFilters);
+        if (adminFilterUserType) {
+            adminFilterUserType.addEventListener('change', () => {
+                const selectedType = adminFilterUserType.value;
+                if (selectedType === 'staff') {
+                    if (adminFilterFaculty) adminFilterFaculty.disabled = true;
+                    if (adminFilterDirection) adminFilterDirection.disabled = true;
+                    if (adminFilterSession) adminFilterSession.disabled = true;
+                } else {
+                    if (adminFilterFaculty) adminFilterFaculty.disabled = false;
+                    if (adminFilterDirection) adminFilterDirection.disabled = false;
+                    if (adminFilterSession) adminFilterSession.disabled = false;
+                }
+                applyAdminFilters();
+            });
+        }
         if (adminFilterFaculty) adminFilterFaculty.addEventListener('change', applyAdminFilters);
         if (adminFilterDirection) adminFilterDirection.addEventListener('change', applyAdminFilters);
         if (adminFilterSession) adminFilterSession.addEventListener('change', applyAdminFilters);
@@ -662,46 +837,65 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function applyAdminFilters() {
+        const userType = adminFilterUserType ? adminFilterUserType.value : 'student';
         const searchQuery = adminSearchInput ? adminSearchInput.value.trim().toLowerCase() : '';
-        const selectedFaculty = adminFilterFaculty ? adminFilterFaculty.value : 'all';
-        const selectedDirection = adminFilterDirection ? adminFilterDirection.value : 'all';
-        const selectedSession = adminFilterSession ? adminFilterSession.value : 'all';
         
-        adminFilteredData = STUDENT_DATA.filter(row => {
-            // 1. Search Query filter
-            let matchesSearch = true;
-            if (searchQuery !== '') {
-                const sid = row[0].toString();
-                const fullName = (row[1] + row[2] + " " + row[3]).toLowerCase();
-                matchesSearch = sid.includes(searchQuery) || fullName.includes(searchQuery);
+        if (userType === 'staff') {
+            if (typeof STAFF_DATA === 'undefined') {
+                adminFilteredData = [];
+            } else {
+                adminFilteredData = STAFF_DATA.filter(row => {
+                    if (searchQuery === '') return true;
+                    const sid = row.id.toString();
+                    const fullName = (row.prefix + row.name + " " + row.surname).toLowerCase();
+                    const nickname = (row.nickname || '').toLowerCase();
+                    return sid.includes(searchQuery) || 
+                           fullName.includes(searchQuery) || 
+                           row.position.toLowerCase().includes(searchQuery) ||
+                           nickname.includes(searchQuery);
+                });
             }
+        } else {
+            const selectedFaculty = adminFilterFaculty ? adminFilterFaculty.value : 'all';
+            const selectedDirection = adminFilterDirection ? adminFilterDirection.value : 'all';
+            const selectedSession = adminFilterSession ? adminFilterSession.value : 'all';
             
-            // 2. Faculty filter
-            let matchesFaculty = true;
-            if (selectedFaculty !== 'all') {
-                let faculty = getFacultyByMajor(row[4]);
-                if (faculty && !faculty.startsWith("คณะ")) {
-                    faculty = "คณะ" + faculty;
+            adminFilteredData = STUDENT_DATA.filter(row => {
+                // 1. Search Query filter
+                let matchesSearch = true;
+                if (searchQuery !== '') {
+                    const sid = row[0].toString();
+                    const fullName = (row[1] + row[2] + " " + row[3]).toLowerCase();
+                    matchesSearch = sid.includes(searchQuery) || fullName.includes(searchQuery);
                 }
-                matchesFaculty = faculty === selectedFaculty;
-            }
-            
-            // 3. Direction (Team) filter
-            let matchesDirection = true;
-            if (selectedDirection !== 'all') {
-                const teamId = row[7].toString();
-                matchesDirection = teamId === selectedDirection;
-            }
-            
-            // 4. Session filter
-            let matchesSession = true;
-            if (selectedSession !== 'all') {
-                const sessionId = row[6].toString();
-                matchesSession = sessionId === selectedSession;
-            }
-            
-            return matchesSearch && matchesFaculty && matchesDirection && matchesSession;
-        });
+                
+                // 2. Faculty filter
+                let matchesFaculty = true;
+                if (selectedFaculty !== 'all') {
+                    let faculty = getFacultyByMajor(row[4]);
+                    if (faculty && !faculty.startsWith("คณะ")) {
+                        faculty = "คณะ" + faculty;
+                    }
+                    matchesFaculty = faculty === selectedFaculty;
+                }
+                
+                // 3. Direction (Team) filter
+                let matchesDirection = true;
+                if (selectedDirection !== 'all') {
+                    const teamId = row[7].toString();
+                    matchesDirection = teamId === selectedDirection;
+                }
+                
+                // 4. Session filter
+                let matchesSession = true;
+                if (selectedSession !== 'all') {
+                    const sessionId = row[6].toString();
+                    matchesSession = sessionId === selectedSession;
+                }
+                
+                return matchesSearch && matchesFaculty && matchesDirection && matchesSession;
+            });
+        }
         
         adminCurrentPage = 1;
         renderAdminTable();
@@ -721,8 +915,38 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentBtnNext = document.getElementById('btn-admin-next');
         const currentPaginationInfo = document.getElementById('admin-pagination-info');
         
+        // Dynamically update table headers based on user type
+        const userType = adminFilterUserType ? adminFilterUserType.value : 'student';
+        const thead = document.querySelector('#admin-students-table thead');
+        if (thead) {
+            if (userType === 'staff') {
+                thead.innerHTML = `
+                    <tr>
+                        <th>ลำดับ</th>
+                        <th>รหัสนิสิต</th>
+                        <th>ชื่อ-นามสกุล</th>
+                        <th>ชื่อเล่น</th>
+                        <th>ประเภท</th>
+                        <th colspan="2">ตำแหน่ง/ฝ่าย</th>
+                    </tr>
+                `;
+            } else {
+                thead.innerHTML = `
+                    <tr>
+                        <th>ลำดับ</th>
+                        <th>รหัสนิสิต</th>
+                        <th>ชื่อ-นามสกุล</th>
+                        <th>คณะวิชา</th>
+                        <th>สาขาวิชา</th>
+                        <th>กลุ่มทิศทาง</th>
+                        <th>รอบกิจกรรม</th>
+                    </tr>
+                `;
+            }
+        }
+        
         if (total === 0) {
-            currentTableBody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 30px; color: var(--text-secondary);">ไม่พบข้อมูลนิสิตที่ตรงตามเงื่อนไขค้นหา</td></tr>`;
+            currentTableBody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 30px; color: var(--text-secondary);">ไม่พบข้อมูลที่ตรงตามเงื่อนไขค้นหา</td></tr>`;
             if (currentPaginationInfo) currentPaginationInfo.textContent = 'แสดงผล 0-0 จาก 0 รายการ';
             if (currentBtnPrev) currentBtnPrev.disabled = true;
             if (currentBtnNext) currentBtnNext.disabled = true;
@@ -748,27 +972,52 @@ document.addEventListener('DOMContentLoaded', () => {
         
         pageData.forEach((row, idx) => {
             const tr = document.createElement('tr');
-            
             const index = start + idx + 1;
-            const sid = row[0];
-            const name = row[1] + row[2] + " " + row[3];
-            const major = row[4];
-            let faculty = getFacultyByMajor(major);
-            if (faculty && !faculty.startsWith("คณะ")) {
-                faculty = "คณะ" + faculty;
-            }
-            const teamBadge = teamBadges[row[7]] || '-';
-            const sessionBadge = sessionBadges[row[6]] || '-';
             
-            tr.innerHTML = `
-                <td>${index.toLocaleString()}</td>
-                <td style="font-weight: 600; font-family: monospace; font-size: 0.9rem;">${sid}</td>
-                <td>${name}</td>
-                <td>${faculty}</td>
-                <td>${major}</td>
-                <td>${teamBadge}</td>
-                <td>${sessionBadge}</td>
-            `;
+            if (userType === 'staff') {
+                const sid = row.id;
+                const name = row.prefix + row.name + " " + row.surname;
+                const nick = row.nickname ? "พี่" + row.nickname : "-";
+                const typeLabel = row.role === 'subcommittee' ? '<span class="admin-type-badge subcomm-badge">อนุกรรมการ</span>' : '<span class="admin-type-badge staff-badge">Staff</span>';
+                const position = row.position;
+                
+                tr.innerHTML = `
+                    <td>${index.toLocaleString()}</td>
+                    <td style="font-weight: 600; font-family: monospace; font-size: 0.9rem;">${sid}</td>
+                    <td>${name}</td>
+                    <td>${nick}</td>
+                    <td>${typeLabel}</td>
+                    <td colspan="2" style="font-weight: 600; color: var(--color-gold-dark);">${position}</td>
+                `;
+
+                tr.addEventListener('click', () => {
+                    showStaffTicket(row);
+                });
+            } else {
+                const sid = row[0];
+                const name = row[1] + row[2] + " " + row[3];
+                const major = row[4];
+                let faculty = getFacultyByMajor(major);
+                if (faculty && !faculty.startsWith("คณะ")) {
+                    faculty = "คณะ" + faculty;
+                }
+                const teamBadge = teamBadges[row[7]] || '-';
+                const sessionBadge = sessionBadges[row[6]] || '-';
+                
+                tr.innerHTML = `
+                    <td>${index.toLocaleString()}</td>
+                    <td style="font-weight: 600; font-family: monospace; font-size: 0.9rem;">${sid}</td>
+                    <td>${name}</td>
+                    <td>${faculty}</td>
+                    <td>${major}</td>
+                    <td>${teamBadge}</td>
+                    <td>${sessionBadge}</td>
+                `;
+
+                tr.addEventListener('click', () => {
+                    showTicket(row);
+                });
+            }
             currentTableBody.appendChild(tr);
         });
         
