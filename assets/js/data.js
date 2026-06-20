@@ -147,6 +147,15 @@ const STAFF_DATA = [
         "role": "staff"
     },
     {
+        "id": "6530161333",
+        "prefix": "น.ส.",
+        "name": "โปรดปราน",
+        "surname": "นามวงศ์",
+        "position": "Organizer THE FRESHY BEARING / รองนายกฝ่ายบริหาร / อนุกรรมการเหรัญญิก",
+        "nickname": "แบมแบม",
+        "role": "staff"
+    },
+    {
         "id": "6730108592",
         "prefix": "น.ส.",
         "name": "อัชฌา",
