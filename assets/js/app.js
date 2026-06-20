@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         switch(teamId) {
             case 0:
                 return {
-                    name: "ทิศเหนือ (Nort)",
+                    name: "ทิศเหนือ (North)",
                     theme: "nort-theme",
                     color: "var(--color-sci)"
                 };
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
             default:
                 return {
-                    name: "ทิศเหนือ (Nort)",
+                    name: "ทิศเหนือ (North)",
                     theme: "nort-theme",
                     color: "var(--color-sci)"
                 };
@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
     new Chart(ctxPlan, {
         type: 'bar',
         data: {
-            labels: ['ทิศเหนือ (Nort)', 'ทิศใต้ (South)', 'ทิศอีสาน (ISAN)', 'ทิศกลาง (Central)'],
+            labels: ['ทิศเหนือ (North)', 'ทิศใต้ (South)', 'ทิศอีสาน (ISAN)', 'ทิศกลาง (Central)'],
             datasets: [
                 {
                     label: 'รอบเช้า (Morning)',
@@ -959,7 +959,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Define team names and badges
         const teamBadges = [
-            '<span class="direction-badge-table badge-north">ทิศเหนือ (Nort)</span>',
+            '<span class="direction-badge-table badge-north">ทิศเหนือ (North)</span>',
             '<span class="direction-badge-table badge-south">ทิศใต้ (South)</span>',
             '<span class="direction-badge-table badge-isan">ทิศอีสาน (ISAN)</span>',
             '<span class="direction-badge-table badge-central">ทิศกลาง (Central)</span>'
