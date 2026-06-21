@@ -81,11 +81,11 @@ document.addEventListener('DOMContentLoaded', () => {
             "การจัดการอุตสาหกรรมบริการ(แขนงวิชาการจัดการและการเป็นผู้ประกอบการท่องเที่ยว)"
         ];
         
-        if (engMajors.includes(majorName)) return "วิศวกรรมศาสตร์ศรีราชา";
-        if (sciMajors.includes(majorName)) return "วิทยาศาสตร์ศรีราชา";
-        if (marMajors.includes(majorName)) return "พาณิชยนาวีนานาชาติ";
-        if (msMajors.includes(majorName)) return "วิทยาการจัดการ";
-        return "อื่นๆ";
+        if (engMajors.includes(majorName)) return "คณะวิศวกรรมศาสตร์ศรีราชา";
+        if (sciMajors.includes(majorName)) return "คณะวิทยาศาสตร์ศรีราชา";
+        if (marMajors.includes(majorName)) return "คณะพาณิชยนาวีนานาชาติ";
+        if (msMajors.includes(majorName)) return "คณะวิทยาการจัดการ";
+        return "คณะอื่นๆ";
     }
 
     // Map stable pre-allocated session/team IDs to display meta
@@ -165,10 +165,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const faculty = getFacultyByMajor(major);
 
         // Faculty count
-        if (faculty === "วิทยาการจัดการ") msCount++;
-        else if (faculty === "วิศวกรรมศาสตร์ศรีราชา") engCount++;
-        else if (faculty === "วิทยาศาสตร์ศรีราชา") sciCount++;
-        else if (faculty === "พาณิชยนาวีนานาชาติ") marCount++;
+        if (faculty === "คณะวิทยาการจัดการ") msCount++;
+        else if (faculty === "คณะวิศวกรรมศาสตร์ศรีราชา") engCount++;
+        else if (faculty === "คณะวิทยาศาสตร์ศรีราชา") sciCount++;
+        else if (faculty === "คณะพาณิชยนาวีนานาชาติ") marCount++;
         else if (faculty === "คณะเศรษฐศาสตร์") ecoCount++;
 
         // Session count
@@ -188,6 +188,12 @@ document.addEventListener('DOMContentLoaded', () => {
         majorCounts[major].count++;
     });
 
+    // Dynamically update morning & afternoon counts
+    const statMorning = document.getElementById('stat-morning-students');
+    if (statMorning) statMorning.textContent = morningCount.toLocaleString();
+    const statAfternoon = document.getElementById('stat-afternoon-students');
+    if (statAfternoon) statAfternoon.textContent = afternoonCount.toLocaleString();
+
     // Sort majors by student count descending
     const sortedMajors = Object.entries(majorCounts).sort((a, b) => b[1].count - a[1].count);
 
@@ -198,8 +204,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const percentage = ((data.count / totalStudents) * 100).toFixed(2);
         
         let facShort = data.faculty;
-        if (data.faculty === "วิศวกรรมศาสตร์ศรีราชา") facShort = "วิศวกรรมศาสตร์";
-        if (data.faculty === "วิทยาศาสตร์ศรีราชา") facShort = "วิทยาศาสตร์";
+        if (data.faculty === "คณะวิศวกรรมศาสตร์ศรีราชา") facShort = "วิศวกรรมศาสตร์";
+        if (data.faculty === "คณะวิทยาศาสตร์ศรีราชา") facShort = "วิทยาศาสตร์";
+        if (data.faculty === "คณะพาณิชยนาวีนานาชาติ") facShort = "พาณิชยนาวี";
+        if (data.faculty === "คณะวิทยาการจัดการ") facShort = "วิทยาการจัดการ";
         if (data.faculty === "คณะเศรษฐศาสตร์") facShort = "เศรษฐศาสตร์";
 
         const row = document.createElement('tr');
@@ -423,10 +431,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    searchBtn.addEventListener('click', runSearch);
-    searchInput.addEventListener('keyup', (e) => {
-        if (e.key === 'Enter') runSearch();
-    });
+    if (searchBtn && searchInput) {
+        searchBtn.addEventListener('click', runSearch);
+        searchInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') runSearch();
+        });
+    }
 
     // 9. Ticket Modal Dialog Controls
     const modal = document.getElementById('student-modal');
@@ -699,6 +709,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const adminTotalFiltered = document.getElementById('admin-total-filtered');
     const adminPaginationInfo = document.getElementById('admin-pagination-info');
     const adminFilterUserType = document.getElementById('admin-filter-usertype');
+    let isAdminListenersAttached = false;
 
     // Init state check
     if (isAdminUnlocked) {
@@ -774,52 +785,50 @@ document.addEventListener('DOMContentLoaded', () => {
         adminFilteredData = [...STUDENT_DATA];
         applyAdminFilters();
         
-        // Setup dashboard event listeners
-        if (adminSearchInput) adminSearchInput.addEventListener('input', applyAdminFilters);
-        if (adminFilterUserType) {
-            adminFilterUserType.addEventListener('change', () => {
-                const selectedType = adminFilterUserType.value;
-                if (selectedType === 'staff') {
-                    if (adminFilterFaculty) adminFilterFaculty.disabled = true;
-                    if (adminFilterDirection) adminFilterDirection.disabled = true;
-                    if (adminFilterSession) adminFilterSession.disabled = true;
-                } else {
-                    if (adminFilterFaculty) adminFilterFaculty.disabled = false;
-                    if (adminFilterDirection) adminFilterDirection.disabled = false;
-                    if (adminFilterSession) adminFilterSession.disabled = false;
-                }
-                applyAdminFilters();
-            });
-        }
-        if (adminFilterFaculty) adminFilterFaculty.addEventListener('change', applyAdminFilters);
-        if (adminFilterDirection) adminFilterDirection.addEventListener('change', applyAdminFilters);
-        if (adminFilterSession) adminFilterSession.addEventListener('change', applyAdminFilters);
-        
-        const btnAdminPrev = document.getElementById('btn-admin-prev');
-        const btnAdminNext = document.getElementById('btn-admin-next');
+        // Setup dashboard event listeners (once only)
+        if (!isAdminListenersAttached) {
+            if (adminSearchInput) adminSearchInput.addEventListener('input', applyAdminFilters);
+            if (adminFilterUserType) {
+                adminFilterUserType.addEventListener('change', () => {
+                    const selectedType = adminFilterUserType.value;
+                    if (selectedType === 'staff') {
+                        if (adminFilterFaculty) adminFilterFaculty.disabled = true;
+                        if (adminFilterDirection) adminFilterDirection.disabled = true;
+                        if (adminFilterSession) adminFilterSession.disabled = true;
+                    } else {
+                        if (adminFilterFaculty) adminFilterFaculty.disabled = false;
+                        if (adminFilterDirection) adminFilterDirection.disabled = false;
+                        if (adminFilterSession) adminFilterSession.disabled = false;
+                    }
+                    applyAdminFilters();
+                });
+            }
+            if (adminFilterFaculty) adminFilterFaculty.addEventListener('change', applyAdminFilters);
+            if (adminFilterDirection) adminFilterDirection.addEventListener('change', applyAdminFilters);
+            if (adminFilterSession) adminFilterSession.addEventListener('change', applyAdminFilters);
+            
+            const btnAdminPrev = document.getElementById('btn-admin-prev');
+            const btnAdminNext = document.getElementById('btn-admin-next');
 
-        if (btnAdminPrev) {
-            // Remove any existing listeners to prevent multiple clicks
-            const newBtnPrev = btnAdminPrev.cloneNode(true);
-            btnAdminPrev.parentNode.replaceChild(newBtnPrev, btnAdminPrev);
-            newBtnPrev.addEventListener('click', () => {
-                if (adminCurrentPage > 1) {
-                    adminCurrentPage--;
-                    renderAdminTable();
-                }
-            });
-        }
-        
-        if (btnAdminNext) {
-            // Remove any existing listeners to prevent multiple clicks
-            const newBtnNext = btnAdminNext.cloneNode(true);
-            btnAdminNext.parentNode.replaceChild(newBtnNext, btnAdminNext);
-            newBtnNext.addEventListener('click', () => {
-                if (adminCurrentPage * adminPageSize < adminFilteredData.length) {
-                    adminCurrentPage++;
-                    renderAdminTable();
-                }
-            });
+            if (btnAdminPrev) {
+                btnAdminPrev.addEventListener('click', () => {
+                    if (adminCurrentPage > 1) {
+                        adminCurrentPage--;
+                        renderAdminTable();
+                    }
+                });
+            }
+            
+            if (btnAdminNext) {
+                btnAdminNext.addEventListener('click', () => {
+                    if (adminCurrentPage * adminPageSize < adminFilteredData.length) {
+                        adminCurrentPage++;
+                        renderAdminTable();
+                    }
+                });
+            }
+            
+            isAdminListenersAttached = true;
         }
     }
 
@@ -859,10 +868,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 2. Faculty filter
                 let matchesFaculty = true;
                 if (selectedFaculty !== 'all') {
-                    let faculty = getFacultyByMajor(row[4]);
-                    if (faculty && !faculty.startsWith("คณะ")) {
-                        faculty = "คณะ" + faculty;
-                    }
+                    const faculty = getFacultyByMajor(row[4]);
                     matchesFaculty = faculty === selectedFaculty;
                 }
                 
@@ -984,10 +990,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const sid = row[0];
                 const name = row[1] + row[2] + " " + row[3];
                 const major = row[4];
-                let faculty = getFacultyByMajor(major);
-                if (faculty && !faculty.startsWith("คณะ")) {
-                    faculty = "คณะ" + faculty;
-                }
+                const faculty = getFacultyByMajor(major);
                 const teamBadge = teamBadges[row[7]] || '-';
                 const sessionBadge = sessionBadges[row[6]] || '-';
                 

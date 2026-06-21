@@ -116,14 +116,14 @@
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fa-solid fa-sun"></i></div>
                         <div class="stat-info">
-                            <span class="stat-value">1,726</span>
+                            <span class="stat-value" id="stat-morning-students">1,726</span>
                             <span class="stat-label">กลุ่มเช้า (Morning Session - คละคณะ)</span>
                         </div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fa-solid fa-moon"></i></div>
                         <div class="stat-info">
-                            <span class="stat-value">1,726</span>
+                            <span class="stat-value" id="stat-afternoon-students">1,726</span>
                             <span class="stat-label">กลุ่มบ่าย (Afternoon Session - คละคณะ)</span>
                         </div>
                     </div>
@@ -180,7 +180,7 @@
                     
                     <div class="search-input-group">
                         <img src="assets/images/magnifying_glass.png" alt="Magnifier" class="search-magnifier">
-                        <input type="text" id="search-input" placeholder="พิมพ์รหัสนิสิต 10 หลัก..." autocomplete="off">
+                        <input type="text" id="search-input" placeholder="พิมพ์รหัสนิสิต 10 หลัก..." autocomplete="off" maxlength="10" inputmode="numeric" pattern="[0-9]*">
                         <button id="search-btn" class="vintage-btn">ค้นหา</button>
                     </div>
 
@@ -188,10 +188,10 @@
                     <div class="filter-chips">
                         <span class="chip-label">กรองคณะ:</span>
                         <button class="filter-chip active" data-faculty="all">ทั้งหมด</button>
-                        <button class="filter-chip" data-faculty="วิทยาการจัดการ">วิทยาการจัดการ</button>
-                        <button class="filter-chip" data-faculty="วิศวกรรมศาสตร์ศรีราชา">วิศวกรรมศาสตร์</button>
-                        <button class="filter-chip" data-faculty="วิทยาศาสตร์ศรีราชา">วิทยาศาสตร์</button>
-                        <button class="filter-chip" data-faculty="พาณิชยนาวีนานาชาติ">พาณิชยนาวี</button>
+                        <button class="filter-chip" data-faculty="คณะวิทยาการจัดการ">วิทยาการจัดการ</button>
+                        <button class="filter-chip" data-faculty="คณะวิศวกรรมศาสตร์ศรีราชา">วิศวกรรมศาสตร์</button>
+                        <button class="filter-chip" data-faculty="คณะวิทยาศาสตร์ศรีราชา">วิทยาศาสตร์</button>
+                        <button class="filter-chip" data-faculty="คณะพาณิชยนาวีนานาชาติ">พาณิชยนาวี</button>
                         <button class="filter-chip" data-faculty="คณะเศรษฐศาสตร์">คณะเศรษฐศาสตร์</button>
                     </div>
                 </div>
@@ -495,7 +495,7 @@
                     
                     <div class="search-input-group">
                         <img src="assets/images/magnifying_glass.png" alt="Magnifier" class="search-magnifier">
-                        <input type="text" id="staff-search-input" placeholder="พิมพ์รหัสนิสิต 10 หลักของ Staff..." autocomplete="off">
+                        <input type="text" id="staff-search-input" placeholder="พิมพ์รหัสนิสิต 10 หลักของ Staff..." autocomplete="off" maxlength="10" inputmode="numeric" pattern="[0-9]*">
                         <button id="staff-search-btn" class="vintage-btn">ค้นหา</button>
                     </div>
                 </div>
