@@ -19,6 +19,8 @@
     
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- html2canvas CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <!-- Style CSS -->
     <link rel="stylesheet" href="style.css?v=1.11">
@@ -631,6 +633,11 @@
             <button class="modal-close-btn" id="modal-close">&times;</button>
             <div id="modal-ticket-placeholder">
                 <!-- Beautiful ticket goes here -->
+            </div>
+            <div class="modal-actions">
+                <button id="btn-download-ticket" class="vintage-btn" style="display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-download"></i> บันทึกป้ายชื่อเป็นรูปภาพ (Save Ticket)
+                </button>
             </div>
         </div>
     </div>

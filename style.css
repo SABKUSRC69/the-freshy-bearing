@@ -2175,5 +2175,12 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 15px;
+}
+
 
 

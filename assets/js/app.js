@@ -458,7 +458,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const teamMeta = getTeamMeta(teamId);
 
         ticketPlaceholder.innerHTML = `
-            <div class="freshy-ticket ${teamMeta.theme}">
+            <div class="freshy-ticket ${teamMeta.theme}" data-id="${sid}" data-name="${prefix}${name}_${surname}">
                 <!-- Header strip -->
                 <div class="ticket-header-strip">
                     <h3>THE FRESHY BEARING PASS</h3>
@@ -532,6 +532,50 @@ document.addEventListener('DOMContentLoaded', () => {
             modal.classList.remove('active');
         }
     });
+
+    // 10. Download Ticket as Image
+    const btnDownloadTicket = document.getElementById('btn-download-ticket');
+    if (btnDownloadTicket) {
+        btnDownloadTicket.addEventListener('click', () => {
+            const ticketElement = document.querySelector('#modal-ticket-placeholder .freshy-ticket');
+            if (!ticketElement) return;
+
+            // Show loading state
+            const originalContent = btnDownloadTicket.innerHTML;
+            btnDownloadTicket.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึกรูปภาพ...';
+            btnDownloadTicket.disabled = true;
+
+            // Brief delay to allow loader spinner UI to render
+            setTimeout(() => {
+                html2canvas(ticketElement, {
+                    scale: 2,             // Higher resolution
+                    useCORS: true,        // Allow CORS resources
+                    backgroundColor: null  // Transparent background around borders
+                }).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const link = document.createElement('a');
+                    
+                    const id = ticketElement.getAttribute('data-id') || 'ticket';
+                    const name = ticketElement.getAttribute('data-name') || 'freshy';
+                    
+                    link.download = `ticket_${id}_${name}.png`;
+                    link.href = imgData;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+
+                    // Reset button state
+                    btnDownloadTicket.innerHTML = originalContent;
+                    btnDownloadTicket.disabled = false;
+                }).catch(err => {
+                    console.error('html2canvas error:', err);
+                    alert('ไม่สามารถบันทึกรูปภาพได้ กรุณาลองแคปหน้าจอแทน');
+                    btnDownloadTicket.innerHTML = originalContent;
+                    btnDownloadTicket.disabled = false;
+                });
+            }, 100);
+        });
+    }
 
     // Staff Search / Checker Functionality
     const staffSearchInput = document.getElementById('staff-search-input');
@@ -629,7 +673,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const stubIcon = 'fa-solid fa-id-badge';
 
         ticketPlaceholder.innerHTML = `
-            <div class="freshy-ticket staff-theme">
+            <div class="freshy-ticket staff-theme" data-id="${row.id}" data-name="${row.prefix}${row.name}_${row.surname}">
                 <!-- Header strip -->
                 <div class="ticket-header-strip">
                     <h3>THE FRESHY BEARING PASS</h3>
