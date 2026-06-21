@@ -546,45 +546,65 @@ document.addEventListener('DOMContentLoaded', () => {
         button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังประมวลผล...';
         button.disabled = true;
 
+        // Check if running on file:// protocol (local HTML file)
+        if (window.location.protocol === 'file:') {
+            alert('ไม่สามารถดาวน์โหลดป้ายชื่อได้เนื่องจากเบราว์เซอร์บล็อกการบันทึกภาพจากไฟล์ออฟไลน์ (file://)\n\nกรุณาใช้งานผ่านลิงก์ออนไลน์ หรือเปิดผ่าน Web Server ท้องถิ่นแทนครับ');
+            button.innerHTML = originalContent;
+            button.disabled = false;
+            return;
+        }
+
         // Brief delay to allow loader spinner UI to render
         setTimeout(() => {
             html2canvas(ticketElement, {
                 scale: 3,             // 3x higher resolution to fix blurry/pixelated images
                 useCORS: true,        // Allow CORS resources
+                logging: true,        // Enable debugging logs in browser console
                 backgroundColor: null  // Transparent background around borders
             }).then(canvas => {
                 const id = ticketElement.getAttribute('data-id') || 'ticket';
                 const name = ticketElement.getAttribute('data-name') || 'freshy';
 
-                if (format === 'png') {
-                    const imgData = canvas.toDataURL('image/png');
-                    const link = document.createElement('a');
-                    link.download = `ticket_${id}_${name}.png`;
-                    link.href = imgData;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                } else if (format === 'pdf') {
-                    const { jsPDF } = window.jspdf;
-                    
-                    // Set PDF dimensions to perfectly match the rendered canvas
-                    const pdf = new jsPDF({
-                        orientation: 'landscape',
-                        unit: 'px',
-                        format: [canvas.width, canvas.height]
-                    });
-                    
-                    const imgData = canvas.toDataURL('image/png');
-                    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-                    pdf.save(`ticket_${id}_${name}.pdf`);
-                }
+                try {
+                    if (format === 'png') {
+                        const imgData = canvas.toDataURL('image/png');
+                        const link = document.createElement('a');
+                        link.download = `ticket_${id}_${name}.png`;
+                        link.href = imgData;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    } else if (format === 'pdf') {
+                        if (!window.jspdf || !window.jspdf.jsPDF) {
+                            throw new Error('ไม่พบไลบรารี jsPDF กรุณารอให้หน้าเว็บโหลดเสร็จสมบูรณ์ หรือรีเฟรชหน้าเว็บ');
+                        }
+                        const { jsPDF } = window.jspdf;
+                        
+                        // Set PDF dimensions to perfectly match the rendered canvas
+                        const pdf = new jsPDF({
+                            orientation: 'landscape',
+                            unit: 'px',
+                            format: [canvas.width, canvas.height]
+                        });
+                        
+                        const imgData = canvas.toDataURL('image/png');
+                        pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+                        pdf.save(`ticket_${id}_${name}.pdf`);
+                    }
 
-                // Reset button state
-                button.innerHTML = originalContent;
-                button.disabled = false;
+                    // Reset button state
+                    button.innerHTML = originalContent;
+                    button.disabled = false;
+                } catch (exportErr) {
+                    console.error('Export format error:', exportErr);
+                    alert('ไม่สามารถดาวน์โหลดไฟล์ได้\n(ข้อผิดพลาดในการแปลงไฟล์: ' + (exportErr.message || exportErr) + ')');
+                    button.innerHTML = originalContent;
+                    button.disabled = false;
+                }
             }).catch(err => {
                 console.error('html2canvas error:', err);
-                alert('ไม่สามารถบันทึกไฟล์ได้ กรุณาลองแคปหน้าจอแทน');
+                const errMsg = err && err.message ? err.message : String(err);
+                alert('ไม่สามารถบันทึกไฟล์ได้ กรุณาลองแคปหน้าจอแทน\n(ข้อผิดพลาดในการสร้างภาพ: ' + errMsg + ')');
                 button.innerHTML = originalContent;
                 button.disabled = false;
             });
