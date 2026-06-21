@@ -533,48 +533,70 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 10. Download Ticket as Image
-    const btnDownloadTicket = document.getElementById('btn-download-ticket');
-    if (btnDownloadTicket) {
-        btnDownloadTicket.addEventListener('click', () => {
-            const ticketElement = document.querySelector('#modal-ticket-placeholder .freshy-ticket');
-            if (!ticketElement) return;
+    // 10. Download Ticket as Image (PNG) or Document (PDF)
+    const btnDownloadPng = document.getElementById('btn-download-png');
+    const btnDownloadPdf = document.getElementById('btn-download-pdf');
 
-            // Show loading state
-            const originalContent = btnDownloadTicket.innerHTML;
-            btnDownloadTicket.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึกรูปภาพ...';
-            btnDownloadTicket.disabled = true;
+    function downloadTicket(format, button) {
+        const ticketElement = document.querySelector('#modal-ticket-placeholder .freshy-ticket');
+        if (!ticketElement) return;
 
-            // Brief delay to allow loader spinner UI to render
-            setTimeout(() => {
-                html2canvas(ticketElement, {
-                    scale: 2,             // Higher resolution
-                    useCORS: true,        // Allow CORS resources
-                    backgroundColor: null  // Transparent background around borders
-                }).then(canvas => {
+        // Show loading state
+        const originalContent = button.innerHTML;
+        button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังประมวลผล...';
+        button.disabled = true;
+
+        // Brief delay to allow loader spinner UI to render
+        setTimeout(() => {
+            html2canvas(ticketElement, {
+                scale: 3,             // 3x higher resolution to fix blurry/pixelated images
+                useCORS: true,        // Allow CORS resources
+                backgroundColor: null  // Transparent background around borders
+            }).then(canvas => {
+                const id = ticketElement.getAttribute('data-id') || 'ticket';
+                const name = ticketElement.getAttribute('data-name') || 'freshy';
+
+                if (format === 'png') {
                     const imgData = canvas.toDataURL('image/png');
                     const link = document.createElement('a');
-                    
-                    const id = ticketElement.getAttribute('data-id') || 'ticket';
-                    const name = ticketElement.getAttribute('data-name') || 'freshy';
-                    
                     link.download = `ticket_${id}_${name}.png`;
                     link.href = imgData;
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
+                } else if (format === 'pdf') {
+                    const { jsPDF } = window.jspdf;
+                    
+                    // Set PDF dimensions to perfectly match the rendered canvas
+                    const pdf = new jsPDF({
+                        orientation: 'landscape',
+                        unit: 'px',
+                        format: [canvas.width, canvas.height]
+                    });
+                    
+                    const imgData = canvas.toDataURL('image/png');
+                    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+                    pdf.save(`ticket_${id}_${name}.pdf`);
+                }
 
-                    // Reset button state
-                    btnDownloadTicket.innerHTML = originalContent;
-                    btnDownloadTicket.disabled = false;
-                }).catch(err => {
-                    console.error('html2canvas error:', err);
-                    alert('ไม่สามารถบันทึกรูปภาพได้ กรุณาลองแคปหน้าจอแทน');
-                    btnDownloadTicket.innerHTML = originalContent;
-                    btnDownloadTicket.disabled = false;
-                });
-            }, 100);
-        });
+                // Reset button state
+                button.innerHTML = originalContent;
+                button.disabled = false;
+            }).catch(err => {
+                console.error('html2canvas error:', err);
+                alert('ไม่สามารถบันทึกไฟล์ได้ กรุณาลองแคปหน้าจอแทน');
+                button.innerHTML = originalContent;
+                button.disabled = false;
+            });
+        }, 100);
+    }
+
+    if (btnDownloadPng) {
+        btnDownloadPng.addEventListener('click', () => downloadTicket('png', btnDownloadPng));
+    }
+
+    if (btnDownloadPdf) {
+        btnDownloadPdf.addEventListener('click', () => downloadTicket('pdf', btnDownloadPdf));
     }
 
     // Staff Search / Checker Functionality
