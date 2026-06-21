@@ -611,10 +611,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showStaffTicket(row) {
         const isSubcomm = row.role === 'subcommittee';
-        const roleHeader = 'STAFF';
-        const stubHeader = 'STAFF';
+        const isAdvisor = row.position === 'ที่ปรึกษาโครงการ' || row.id === 'SAB69';
+        const roleHeader = isAdvisor ? 'ADVISOR' : 'STAFF';
+        const stubHeader = isAdvisor ? 'ADVISOR' : 'STAFF';
         const stubSubtitle = (isSubcomm || row.position === 'ที่ปรึกษาโครงการ') ? row.position : 'ฝ่ายงานผู้ดูแลระบบ';
-        const teamBadgeLabel = 'ทีมสตาฟ';
+        const teamBadgeLabel = isAdvisor ? 'ที่ปรึกษา' : 'ทีมสตาฟ';
         const stubIcon = 'fa-solid fa-id-badge';
 
         ticketPlaceholder.innerHTML = `
@@ -633,7 +634,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <!-- Left Main Stub -->
                     <div class="ticket-main">
                         <div class="ticket-field student-id-field">
-                            <label>รหัสนิสิต (STUDENT ID)</label>
+                            <label>${isAdvisor ? 'ที่ปรึกษา (ADVISOR)' : 'รหัสนิสิต (STUDENT ID)'}</label>
                             <span>${row.id}</span>
                         </div>
                         
