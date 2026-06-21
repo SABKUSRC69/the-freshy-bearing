@@ -160,7 +160,7 @@ const STAFF_DATA = [
         "prefix": "นาย",
         "name": "ธนวัฒน์",
         "surname": "เตชะอำไพ",
-        "position": "ที่ปรึกษาโครงการ",
+        "position": "ที่ปรึกษา องค์การบริหาร องค์การนิสิต",
         "nickname": "แจ็ค",
         "role": "staff"
     },

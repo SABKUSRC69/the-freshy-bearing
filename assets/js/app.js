@@ -611,11 +611,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showStaffTicket(row) {
         const isSubcomm = row.role === 'subcommittee';
-        const isAdvisor = row.position === 'ที่ปรึกษาโครงการ' || row.id === 'SAB69';
-        const roleHeader = isAdvisor ? 'ADVISOR' : 'STAFF';
-        const stubHeader = isAdvisor ? 'ADVISOR' : 'STAFF';
-        const stubSubtitle = (isSubcomm || row.position === 'ที่ปรึกษาโครงการ') ? row.position : 'ฝ่ายงานผู้ดูแลระบบ';
-        const teamBadgeLabel = isAdvisor ? 'ที่ปรึกษา' : 'ทีมสตาฟ';
+        const isAdvisor = row.position.includes('ที่ปรึกษา') || row.id === 'SAB69';
+        const roleHeader = isAdvisor ? 'SPECIAL PASS' : 'STAFF';
+        const stubHeader = isAdvisor ? 'VIP' : 'STAFF';
+        const stubSubtitle = (isSubcomm || isAdvisor) ? row.position : 'ฝ่ายงานผู้ดูแลระบบ';
+        const teamBadgeLabel = isAdvisor ? 'ที่ปรึกษาโครงการ' : 'ทีมสตาฟ';
         const stubIcon = 'fa-solid fa-id-badge';
 
         ticketPlaceholder.innerHTML = `
@@ -634,7 +634,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <!-- Left Main Stub -->
                     <div class="ticket-main">
                         <div class="ticket-field student-id-field">
-                            <label>${isAdvisor ? 'ที่ปรึกษา (ADVISOR)' : 'รหัสนิสิต (STUDENT ID)'}</label>
+                            <label>${isAdvisor ? 'รหัสค้นหา (SEARCH CODE)' : 'รหัสนิสิต (STUDENT ID)'}</label>
                             <span>${row.id}</span>
                         </div>
                         
