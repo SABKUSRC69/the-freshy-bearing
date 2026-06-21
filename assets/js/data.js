@@ -151,7 +151,7 @@ const STAFF_DATA = [
         "prefix": "น.ส.",
         "name": "โปรดปราน",
         "surname": "นามวงค์",
-        "position": "Organizer THE FRESHY BEARING / รองนายกฝ่ายบริหาร / อนุกรรมการเหรัญญิก",
+        "position": "Organizer THE FRESHY BEARING / รองนายกฝ่ายบริหาร / อนุกรรมการเหรัญญิก / ที่ปรึกษาส่วนตัวนายกองค์การบริหาร องค์การนิสิต",
         "nickname": "แบมแบม",
         "role": "staff"
     },
@@ -474,7 +474,7 @@ const STAFF_DATA = [
         "id": "6830502331",
         "prefix": "น.ส.",
         "name": "อฎีฏาร์",
-        "surname": "พัฒน์จินากุล",
+        "surname": "พัฒน์จินากูล",
         "position": "อนุกรรมการฝ่ายอาคารสถานที่และโสตทัศนูปกรณ์",
         "nickname": "ชมวิว",
         "role": "subcommittee"
