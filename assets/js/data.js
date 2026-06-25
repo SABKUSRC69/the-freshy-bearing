@@ -147,24 +147,6 @@ const STAFF_DATA = [
         "role": "staff"
     },
     {
-        "id": "6530161333",
-        "prefix": "น.ส.",
-        "name": "โปรดปราน",
-        "surname": "นามวงค์",
-        "position": "Organizer THE FRESHY BEARING / รองนายกฝ่ายบริหาร / อนุกรรมการเหรัญญิก / ที่ปรึกษาส่วนตัวนายกองค์การบริหาร องค์การนิสิต",
-        "nickname": "แบมแบม",
-        "role": "staff"
-    },
-    {
-        "id": "SAB69",
-        "prefix": "นาย",
-        "name": "ธนวัฒน์",
-        "surname": "เตชะอำไพ",
-        "position": "ที่ปรึกษา องค์การบริหาร องค์การนิสิต",
-        "nickname": "แจ็ค",
-        "role": "staff"
-    },
-    {
         "id": "6730108592",
         "prefix": "น.ส.",
         "name": "อัชฌา",
@@ -505,5 +487,50 @@ const STAFF_DATA = [
         "position": "อนุกรรมการฝ่ายประชาสัมพันธ์และทัศนศิลป์",
         "nickname": "อิ๊ง",
         "role": "subcommittee"
+    },
+    {
+        "id": "6530161333",
+        "prefix": "น.ส.",
+        "name": "โปรดปราน",
+        "surname": "นามวงค์",
+        "position": "อนุกรรมการฝ่ายเหรัญญิก",
+        "nickname": "แบมแบม",
+        "role": "subcommittee"
+    },
+    {
+        "id": "sab69",
+        "prefix": "นาย",
+        "name": "ธนวัฒน์",
+        "surname": "เตชะอำไพ",
+        "position": "ที่ปรึกษา องค์การบริหาร องค์การนิสิต",
+        "nickname": "แจ็ค",
+        "role": "advisor"
+    },
+    {
+        "id": "6530151494",
+        "prefix": "นาย",
+        "name": "วินย์สันต์",
+        "surname": "วินทชัย",
+        "position": "นายก องค์การบริหาร องค์การนิสิต SAB68",
+        "nickname": "วิน",
+        "role": "advisor"
+    },
+    {
+        "id": "sab68",
+        "prefix": "นาย",
+        "name": "น้ำพุ",
+        "surname": "จันทะสอน",
+        "position": "รองนายกฝ่ายกิจกรรมนิสิต SAB68",
+        "nickname": "ต้า",
+        "role": "advisor"
+    },
+    {
+        "id": "sab68",
+        "prefix": "น.ส.",
+        "name": "อาริศรา",
+        "surname": "อุ่นอก",
+        "position": "รองนายกฝ่ายสื่อสารองค์กร SAB68",
+        "nickname": "พิม",
+        "role": "advisor"
     }
 ];
