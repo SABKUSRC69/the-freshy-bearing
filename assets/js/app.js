@@ -498,7 +498,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <h4>${sessionMeta.name}</h4>
                             <span>เวลาลงทะเบียนกิจกรรม</span>
                         </div>
-                        <div class="stub-time">${sessionMeta.regTime}</div>
+                        <div class="stub-time" style="background-color: #cb9b42 !important; color: #0d0d18 !important; font-weight: 700 !important; border-radius: 4px; padding: 4px 10px;">${sessionMeta.regTime}</div>
                         <div style="font-size: 0.65rem; color: var(--text-secondary); margin-bottom: 12px; font-family: Sarabun;">
                             (วันพฤหัสบดีที่ 2 ก.ค. 2569)
                         </div>
@@ -750,7 +750,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <h4>${stubHeader}</h4>
                             <span>${stubSubtitle}</span>
                         </div>
-                        <div class="stub-time">18.00 - 19.00 น.</div>
+                        <div class="stub-time" style="background-color: #cb9b42 !important; color: #0d0d18 !important; font-weight: 700 !important; border-radius: 4px; padding: 4px 10px;">18.00 - 19.00 น.</div>
                         <div style="font-size: 0.65rem; color: var(--text-secondary); margin-bottom: 12px; font-family: Sarabun;">
                             (วันพฤหัสบดีที่ 2 ก.ค. 2569)
                         </div>
