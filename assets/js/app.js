@@ -90,21 +90,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Map stable pre-allocated session/team IDs to display meta
     function getSessionMeta(sessionId) {
-        if (sessionId === 0) {
-            return {
-                name: "กลุ่มเช้า (Morning)",
-                regTime: "08.00 - 08.30 น.",
-                activityTime: "08.30 - 12.30 น.",
-                iconClass: "fa-solid fa-sun"
-            };
-        } else {
-            return {
-                name: "กลุ่มบ่าย (Afternoon)",
-                regTime: "13.30 - 14.00 น.",
-                activityTime: "14.00 - 18.00 น.",
-                iconClass: "fa-solid fa-moon"
-            };
-        }
+        return {
+            name: "Freshy Night Concert",
+            regTime: "18.00 - 19.00 น.",
+            activityTime: "18.00 - 22.00 น.",
+            iconClass: "fa-solid fa-guitar"
+        };
     }
 
     function getTeamMeta(teamId) {
@@ -505,11 +496,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="stub-group-badge">
                             <i class="${sessionMeta.iconClass}"></i>
                             <h4>${sessionMeta.name}</h4>
-                            <span>กลุ่มเวลาสุ่มรอบเข้างาน</span>
+                            <span>เวลาลงทะเบียนกิจกรรม</span>
                         </div>
                         <div class="stub-time">${sessionMeta.regTime}</div>
                         <div style="font-size: 0.65rem; color: var(--text-secondary); margin-bottom: 12px; font-family: Sarabun;">
-                            (โปรดลงทะเบียนตามรอบสิทธิ์สุ่ม)
+                            (วันพฤหัสบดีที่ 2 ก.ค. 2569)
                         </div>
                         <div class="stub-team-badge">${teamMeta.name}</div>
                     </div>

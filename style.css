@@ -1045,12 +1045,12 @@ body {
 
 .stub-time {
     font-family: 'Bai Jamjuree', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: #fff;
-    background-color: var(--text-primary);
-    padding: 3px 8px;
-    border-radius: 2px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #0d0d18;
+    background-color: var(--color-gold);
+    padding: 4px 10px;
+    border-radius: 4px;
     margin-bottom: 12px;
 }
 
