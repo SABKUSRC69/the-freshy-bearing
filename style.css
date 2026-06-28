@@ -1296,8 +1296,9 @@ body {
 .freshy-night-header span {
     font-family: 'Bai Jamjuree', sans-serif;
     font-size: 0.8rem;
-    color: var(--text-secondary);
-    background-color: #fcecef;
+    color: #e57d90;
+    background-color: rgba(203, 83, 107, 0.15);
+    border: 1px solid rgba(203, 83, 107, 0.3);
     padding: 2px 12px;
     border-radius: 20px;
     font-weight: 500;
