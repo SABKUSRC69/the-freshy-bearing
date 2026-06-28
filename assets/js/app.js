@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
             datasets: [{
                 data: [msCount, engCount, sciCount, marCount, ecoCount],
                 backgroundColor: ['#d97486', '#cba358', '#568a5c', '#507ea6', '#e28743'],
-                borderColor: '#fdfcf9',
+                borderColor: '#0d0d18',
                 borderWidth: 2
             }]
         },
@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     position: 'bottom',
                     labels: {
                         font: { family: 'Bai Jamjuree', size: 11 },
-                        color: '#6e624c'
+                        color: '#a69b88'
                     }
                 }
             }
@@ -277,8 +277,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         teamSessionCounts[2][1],
                         teamSessionCounts[3][1]
                     ],
-                    backgroundColor: '#3c3222',
-                    borderColor: '#272016',
+                    backgroundColor: '#507ea6',
+                    borderColor: '#395e80',
                     borderWidth: 1,
                     borderRadius: 4
                 }
@@ -293,7 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     position: 'bottom',
                     labels: {
                         font: { family: 'Bai Jamjuree', size: 10 },
-                        color: '#6e624c'
+                        color: '#a69b88'
                     }
                 }
             },
@@ -301,23 +301,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 x: {
                     ticks: {
                         font: { family: 'Bai Jamjuree', size: 10 },
-                        color: '#6e624c'
+                        color: '#a69b88'
                     },
                     grid: { display: false }
                 },
                 y: {
                     ticks: {
                         font: { family: 'Sarabun', size: 10 },
-                        color: '#6e624c'
+                        color: '#a69b88'
                     },
-                    grid: { color: '#efeae0' }
+                    grid: { color: '#2c251a' }
                 }
             }
         }
     });
 
     // 7. Live Countdown Timer
-    const targetDate = new Date("2026-06-27T09:00:00+07:00").getTime();
+    const targetDate = new Date("2026-07-02T18:00:00+07:00").getTime();
 
     function updateCountdown() {
         const now = new Date().getTime();

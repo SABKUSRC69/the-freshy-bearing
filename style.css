@@ -4,12 +4,12 @@
 
 /* Design Tokens */
 :root {
-    --bg-base: #fdfbf7;
-    --text-primary: #3d3527;
-    --text-secondary: #6e624c;
-    --color-gold: #c29b48;
-    --color-gold-dark: #8c6a25;
-    --color-gold-light: #e5cf9c;
+    --bg-base: #06060c;
+    --text-primary: #eae5da;
+    --text-secondary: #a69b88;
+    --color-gold: #e2be73;
+    --color-gold-dark: #b89347;
+    --color-gold-light: #faebd2;
     
     /* Faculty Colors */
     --color-ms: #d97486;       /* Management Sciences - Pastel Rose */
@@ -19,11 +19,12 @@
     --color-eco: #e28743;      /* Economics - Terracotta/Orange */
     
     /* System Colors */
-    --border-warm: #d9d0be;
-    --bg-card: #fdfcf9;
-    --bg-sidebar: #eae0cd;
-    --shadow-vintage: 0 10px 30px rgba(58, 49, 36, 0.12);
-    --shadow-inset: inset 0 2px 5px rgba(0,0,0,0.05);
+    --border-warm: #2c251a;
+    --bg-card: #0d0d18;
+    --bg-sidebar: #090911;
+    --shadow-vintage: 0 10px 40px rgba(0, 0, 0, 0.7);
+    --shadow-inset: inset 0 2px 8px rgba(0,0,0,0.4);
+    --bg-lines: rgba(255, 255, 255, 0.05);
     --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
@@ -38,7 +39,7 @@ body {
     font-family: 'Sarabun', 'Bai Jamjuree', sans-serif;
     color: var(--text-primary);
     background-color: var(--bg-base);
-    background-image: url('assets/images/background.jpg');
+    background-image: linear-gradient(rgba(8, 8, 16, 0.85), rgba(12, 12, 24, 0.9)), url('assets/images/starry_sky.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -127,7 +128,7 @@ body {
 .scrapbook-sidebar {
     width: 280px;
     background-color: var(--bg-sidebar);
-    background-image: linear-gradient(to right, rgba(0,0,0,0.02), rgba(0,0,0,0.08)), url('assets/images/background.jpg');
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.5)), url('assets/images/starry_sky.png');
     border-right: 3px double var(--border-warm);
     display: flex;
     flex-direction: column;
@@ -217,7 +218,7 @@ body {
 }
 
 .menu-tab:hover {
-    background-color: rgba(253, 252, 249, 0.5);
+    background-color: rgba(255, 255, 255, 0.08);
     color: var(--text-primary);
     transform: translateX(5px);
     border-color: var(--border-warm);
@@ -274,7 +275,7 @@ body {
 /* Header Banner Page */
 .page-header-banner {
     height: 200px;
-    background-image: linear-gradient(135deg, rgba(60, 50, 34, 0.95), rgba(40, 32, 20, 0.92)), url('assets/images/starry_sky.png');
+    background-image: linear-gradient(135deg, rgba(12, 10, 25, 0.94), rgba(20, 15, 38, 0.9)), url('assets/images/starry_sky.png');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -390,7 +391,7 @@ body {
 
 /* Countdown Ticker Card */
 .countdown-card {
-    background-color: #f7f3e8;
+    background-color: rgba(0, 0, 0, 0.25);
     border: 2px solid var(--border-warm);
     border-radius: 4px;
     padding: 20px;
@@ -413,7 +414,7 @@ body {
 }
 
 .countdown-label i {
-    color: var(--color-gold-dark);
+    color: var(--color-gold);
 }
 
 .countdown-timer {
@@ -437,7 +438,7 @@ body {
     font-family: 'Playfair Display', serif;
     font-size: 1.6rem;
     font-weight: 700;
-    color: var(--color-gold-dark);
+    color: var(--color-gold);
     line-height: 1;
     margin-bottom: 3px;
 }
@@ -484,7 +485,7 @@ body {
     justify-content: center;
     align-items: center;
     font-size: 1.3rem;
-    color: var(--color-gold-dark);
+    color: var(--color-gold);
     border: 1px solid rgba(194, 155, 72, 0.2);
 }
 
@@ -862,7 +863,7 @@ body {
 /* Beautiful Vintage Ticket Passport design */
 .freshy-ticket {
     background-color: var(--bg-card);
-    background-image: url('assets/images/background.jpg');
+    background-image: linear-gradient(rgba(18, 18, 30, 0.94), rgba(18, 18, 30, 0.94)), url('assets/images/background.jpg');
     border: 3px double var(--border-warm);
     border-radius: 8px;
     overflow: hidden;
@@ -942,7 +943,7 @@ body {
     position: absolute;
     width: 20px;
     height: 20px;
-    background-color: rgba(30, 25, 20, 0.6); /* Matches backdrop */
+    background-color: var(--bg-card); /* Matches backdrop */
     border-radius: 50%;
     z-index: 10;
 }
@@ -998,7 +999,7 @@ body {
     font-family: 'Playfair Display', serif;
     font-size: 1.3rem;
     font-weight: 700;
-    color: var(--color-gold-dark);
+    color: var(--color-gold);
 }
 
 /* Right main stub of ticket */
@@ -1113,7 +1114,7 @@ body {
 }
 
 .schedule-tab.active {
-    color: var(--color-gold-dark);
+    color: var(--color-gold);
     font-weight: 600;
 }
 
@@ -1241,7 +1242,7 @@ body {
     font-family: 'Playfair Display', 'Bai Jamjuree', serif;
     font-size: 0.85rem;
     font-weight: 700;
-    color: var(--color-gold-dark);
+    color: var(--color-gold);
     margin-bottom: 3px;
 }
 
@@ -1305,7 +1306,7 @@ body {
 }
 
 .timeline-item.artist {
-    background-color: #faf6eb;
+    background-color: rgba(203, 83, 107, 0.08);
     border: 1px solid var(--border-warm);
     border-radius: 4px;
     padding: 15px;
@@ -1367,7 +1368,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f7f3e8;
+    background-color: rgba(0, 0, 0, 0.2);
     border: 1px solid var(--border-warm);
     border-radius: 4px;
     margin-bottom: 18px;
@@ -1724,7 +1725,7 @@ body {
 
 /* Admin Section CSS */
 .admin-lock-card {
-    background-color: var(--card-bg);
+    background-color: var(--bg-card);
     border: 1px solid var(--border-warm);
     border-radius: 12px;
     box-shadow: var(--shadow-sm);
@@ -1777,7 +1778,7 @@ body {
     display: flex;
     border: 1px solid var(--border-warm);
     border-radius: 8px;
-    background: #fff;
+    background: var(--bg-card);
     overflow: hidden;
 }
 
@@ -1788,6 +1789,8 @@ body {
     font-size: 1rem;
     outline: none;
     font-family: 'Sarabun', sans-serif;
+    background: transparent;
+    color: var(--text-primary);
 }
 
 .password-input-group button {
@@ -1869,6 +1872,8 @@ body {
     font-size: 0.95rem;
     outline: none;
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    background-color: var(--bg-card);
+    color: var(--text-primary);
 }
 
 .toolbar-filters {
@@ -1896,7 +1901,8 @@ body {
     border-radius: 6px;
     font-family: 'Sarabun', sans-serif;
     outline: none;
-    background-color: #fff;
+    background-color: var(--bg-card);
+    color: var(--text-primary);
     cursor: pointer;
 }
 
@@ -1934,7 +1940,7 @@ body {
 
 .admin-table th {
     font-family: 'Bai Jamjuree', sans-serif;
-    background-color: #f5f0e3;
+    background-color: var(--bg-sidebar);
     color: var(--text-primary);
     font-weight: 600;
     padding: 12px 15px;
@@ -1946,7 +1952,7 @@ body {
 
 .admin-table td {
     padding: 10px 15px;
-    border-bottom: 1px solid #efeae0;
+    border-bottom: 1px solid var(--border-warm);
     color: var(--text-secondary);
     white-space: nowrap;
 }
@@ -1956,7 +1962,7 @@ body {
 }
 
 .admin-table tbody tr:hover {
-    background-color: #faf7f0;
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 .admin-table tbody tr:hover td {
@@ -1984,8 +1990,8 @@ body {
     font-size: 0.75rem;
     font-weight: 500;
 }
-.badge-morning { background-color: #fff3cd; color: #856404; }
-.badge-afternoon { background-color: #e2e3e5; color: #383d41; }
+.badge-morning { background-color: rgba(194, 155, 72, 0.18); color: #faebd2; border: 1px solid rgba(194, 155, 72, 0.3); }
+.badge-afternoon { background-color: rgba(80, 126, 166, 0.18); color: #a6c5e2; border: 1px solid rgba(80, 126, 166, 0.3); }
 
 .admin-pagination {
     display: flex;
@@ -2003,7 +2009,7 @@ body {
 }
 
 .btn-page {
-    background-color: var(--card-bg);
+    background-color: var(--bg-card);
     border: 1px solid var(--border-warm);
     border-radius: 6px;
     padding: 8px 16px;
@@ -2016,7 +2022,7 @@ body {
 }
 
 .btn-page:hover:not(:disabled) {
-    background-color: #efeae0;
+    background-color: rgba(255, 255, 255, 0.08);
 }
 
 .btn-page:disabled {
