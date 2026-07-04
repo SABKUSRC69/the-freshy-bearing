@@ -315,7 +315,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const diff = targetDate - now;
 
         if (diff <= 0) {
-            document.getElementById('countdown-timer').innerHTML = "<div class='time-block' style='min-width: 250px;'><span style='font-size: 1.2rem; padding: 10px;'>ยินดีต้อนรับนิสิตใหม่ KU86 สู่กิจกรรม!</span></div>";
+            const labelEl = document.querySelector('.countdown-label');
+            if (labelEl) {
+                labelEl.innerHTML = "<i class='fa-regular fa-calendar-check'></i> สถานะกิจกรรม";
+            }
+            document.getElementById('countdown-timer').innerHTML = "<div class='time-block' style='min-width: 280px;'><span style='font-size: 1.1rem; padding: 10px; color: var(--color-gold); font-weight: 700;'><i class='fa-solid fa-graduation-cap'></i> สิ้นสุดกิจกรรมแล้ว ขอบคุณนิสิตใหม่ทุกท่าน!</span></div>";
             clearInterval(countdownInterval);
             return;
         }
