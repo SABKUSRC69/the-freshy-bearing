@@ -812,6 +812,11 @@ body {
 .faculty-badge-inline.sci { background-color: var(--color-sci); }
 .faculty-badge-inline.mar { background-color: var(--color-mar); }
 .faculty-badge-inline.eco { background-color: var(--color-eco); }
+.faculty-badge-inline.staff { background-color: var(--color-gold); }
+
+.student-result-card.staff-card {
+    border-color: rgba(226, 190, 115, 0.4);
+}
 
 /* Modal Design */
 .modal {

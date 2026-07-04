@@ -392,6 +392,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (filtered.length === 0) {
+            if (typeof STAFF_DATA !== 'undefined') {
+                const foundStaff = STAFF_DATA.find(row => String(row.id) === query);
+                if (foundStaff) {
+                    resultsCountText.textContent = `พบรายชื่อทีมงานฝ่ายจัดโครงการ 1 คน`;
+                    
+                    const card = document.createElement('div');
+                    card.className = 'student-result-card staff-card';
+                    card.innerHTML = `
+                        <span class="src-id">${foundStaff.id}</span>
+                        <span class="src-name">${foundStaff.prefix}${foundStaff.name} ${foundStaff.surname}</span>
+                        <div class="src-meta">
+                            <span><span class="faculty-badge-inline staff"></span>ทีมงานฝ่ายจัดโครงการ</span>
+                            <span>ตำแหน่ง: ${foundStaff.position}</span>
+                        </div>
+                    `;
+                    
+                    card.addEventListener('click', () => {
+                        showStaffTicket(foundStaff);
+                    });
+                    
+                    searchResultsGrid.appendChild(card);
+                    return;
+                }
+            }
+
             resultsCountText.textContent = `ไม่พบผลการค้นหาสำหรับ "${query}"`;
             searchResultsGrid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary); font-family: 'Bai Jamjuree';">ไม่พบข้อมูลกรุณาตรวจสอบการสะกดคำ หรือรหัสนิสิต</div>`;
             return;
