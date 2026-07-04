@@ -357,7 +357,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function runSearch() {
-        const query = searchInput.value.trim();
+        let query = searchInput.value.trim();
+        // Automatically convert Thai digits to Arabic digits and strip hyphens/spaces
+        query = query
+            .replace(/[๐-๙]/g, d => String.fromCharCode(d.charCodeAt(0) - 3616))
+            .replace(/[\s-]/g, '');
+
         searchResultsGrid.innerHTML = '';
 
         if (query === '') {
@@ -380,7 +385,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Exact match for student ID only
             const matchesQuery = (sid === query);
-            const matchesFilter = activeFilter === 'all' || faculty === activeFilter;
+            // If they search by exact 10-digit ID, ignore active filter to make it foolproof
+            const matchesFilter = (query.length === 10) ? true : (activeFilter === 'all' || faculty === activeFilter);
 
             return matchesQuery && matchesFilter;
         });
@@ -632,7 +638,12 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Staff database is missing.");
             return;
         }
-        const query = staffSearchInput.value.trim().toUpperCase();
+        let query = staffSearchInput.value.trim().toUpperCase();
+        // Automatically convert Thai digits to Arabic digits and strip hyphens/spaces
+        query = query
+            .replace(/[๐-๙]/g, d => String.fromCharCode(d.charCodeAt(0) - 3616))
+            .replace(/[\s-]/g, '');
+
         staffSearchResultsGrid.innerHTML = '';
 
         if (query === '') {
