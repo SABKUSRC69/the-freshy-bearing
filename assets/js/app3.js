@@ -319,8 +319,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (labelEl) {
                 labelEl.innerHTML = "<i class='fa-regular fa-calendar-check'></i> สถานะกิจกรรม";
             }
-            document.getElementById('countdown-timer').innerHTML = "<div class='time-block' style='min-width: 280px;'><span style='font-size: 1.1rem; padding: 10px; color: var(--color-gold); font-weight: 700;'><i class='fa-solid fa-graduation-cap'></i> สิ้นสุดกิจกรรมแล้ว ขอบคุณนิสิตใหม่ทุกท่าน!</span></div>";
-            clearInterval(countdownInterval);
+            const timerEl = document.getElementById('countdown-timer');
+            if (timerEl) {
+                timerEl.innerHTML = "<div class='time-block' style='min-width: 280px;'><span style='font-size: 1.1rem; padding: 10px; color: var(--color-gold); font-weight: 700;'><i class='fa-solid fa-graduation-cap'></i> สิ้นสุดกิจกรรมแล้ว ขอบคุณนิสิตใหม่ทุกท่าน!</span></div>";
+            }
+            if (countdownInterval) clearInterval(countdownInterval);
             return;
         }
 
@@ -335,8 +338,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('seconds').textContent = String(s).padStart(2, '0');
     }
 
+    let countdownInterval = setInterval(updateCountdown, 1000);
     updateCountdown();
-    const countdownInterval = setInterval(updateCountdown, 1000);
 
     // 8. Search / Checker Functionality
     const searchInput = document.getElementById('search-input');
