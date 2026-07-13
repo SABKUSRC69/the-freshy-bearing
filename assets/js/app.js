@@ -3,10 +3,49 @@
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
+    let facultyChart, planChart;
+
     // 1. Initial Data check
     if (typeof STUDENT_DATA === 'undefined') {
         console.error("Student database 'data.js' is missing or not loaded correctly.");
         return;
+    }
+
+    // Helper to dynamically update Chart.js colors based on theme
+    function updateChartThemes(isDayMode) {
+        const textColor = isDayMode ? '#7a6b5a' : '#a69b88';
+        const gridColor = isDayMode ? '#d4c5a9' : '#2c251a';
+        const borderColor = isDayMode ? '#faf6ec' : '#0d0d18';
+
+        if (facultyChart) {
+            if (facultyChart.options.plugins && facultyChart.options.plugins.legend && facultyChart.options.plugins.legend.labels) {
+                facultyChart.options.plugins.legend.labels.color = textColor;
+            }
+            if (facultyChart.data.datasets && facultyChart.data.datasets[0]) {
+                facultyChart.data.datasets[0].borderColor = borderColor;
+            }
+            facultyChart.update();
+        }
+
+        if (planChart) {
+            if (planChart.options.plugins && planChart.options.plugins.legend && planChart.options.plugins.legend.labels) {
+                planChart.options.plugins.legend.labels.color = textColor;
+            }
+            if (planChart.options.scales) {
+                if (planChart.options.scales.x && planChart.options.scales.x.ticks) {
+                    planChart.options.scales.x.ticks.color = textColor;
+                }
+                if (planChart.options.scales.y) {
+                    if (planChart.options.scales.y.ticks) {
+                        planChart.options.scales.y.ticks.color = textColor;
+                    }
+                    if (planChart.options.scales.y.grid) {
+                        planChart.options.scales.y.grid.color = gridColor;
+                    }
+                }
+            }
+            planChart.update();
+        }
     }
 
     // 2. Day/Night Theme Toggle
@@ -27,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (dayLabel) dayLabel.classList.remove('active-label');
             if (nightLabel) nightLabel.classList.add('active-label');
         }
+        updateChartThemes(isDayMode);
     }
 
     // Restore saved theme preference
@@ -249,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 6. Chart.js Renderings
     // Chart 1: Faculty Distribution (Doughnut)
     const ctxFaculty = document.getElementById('facultyChart').getContext('2d');
-    new Chart(ctxFaculty, {
+    facultyChart = new Chart(ctxFaculty, {
         type: 'doughnut',
         data: {
             labels: ['วิทยาการจัดการ', 'วิศวกรรมศาสตร์', 'วิทยาศาสตร์', 'พาณิชยนาวี', 'เศรษฐศาสตร์'],
@@ -277,7 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Chart 2: Team/Session Size Distribution (Grouped Bar)
     const ctxPlan = document.getElementById('planChart').getContext('2d');
-    new Chart(ctxPlan, {
+    planChart = new Chart(ctxPlan, {
         type: 'bar',
         data: {
             labels: ['ทิศเหนือ (North)', 'ทิศใต้ (South)', 'ทิศอีสาน (ISAN)', 'ทิศกลาง (Central)'],
@@ -341,6 +381,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+    // Apply current theme colors to charts on load
+    updateChartThemes(document.documentElement.getAttribute('data-theme') === 'day');
 
     // 7. Live Countdown Timer
     const targetDate = new Date("2026-07-02T18:00:00+07:00").getTime();

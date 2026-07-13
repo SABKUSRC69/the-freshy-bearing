@@ -2698,6 +2698,33 @@ body {
     background-color: #b89347;
 }
 
+/* Day Mode UI Fixes & Overrides */
+[data-theme="day"] .freshy-night-header span {
+    color: #cb536b;
+    background-color: rgba(203, 83, 107, 0.08);
+    border-color: rgba(203, 83, 107, 0.25);
+}
+
+[data-theme="day"] .badge-morning {
+    color: #8c6d30;
+    background-color: rgba(184, 147, 71, 0.1);
+    border-color: rgba(184, 147, 71, 0.25);
+}
+
+[data-theme="day"] .badge-afternoon {
+    color: #2b567d;
+    background-color: rgba(80, 126, 166, 0.1);
+    border-color: rgba(80, 126, 166, 0.25);
+}
+
+[data-theme="day"] .btn-page:hover:not(:disabled) {
+    background-color: rgba(184, 147, 71, 0.1);
+}
+
+[data-theme="day"] .vintage-table tbody tr:hover {
+    background-color: rgba(184, 147, 71, 0.04);
+}
+
 /* Smooth theme transition for all elements */
 body,
 .scrapbook-container,
@@ -2711,7 +2738,9 @@ body,
 .countdown-card,
 .freshy-ticket,
 .student-result-card,
-.filter-chip {
+.filter-chip,
+.vintage-table tbody tr,
+.btn-page {
     transition: background-color 0.5s ease, background-image 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
 }
 
