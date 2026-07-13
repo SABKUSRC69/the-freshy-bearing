@@ -2534,17 +2534,59 @@ body {
 }
 
 [data-theme="day"] .freshy-ticket {
-    background-color: #fdfaf3;
-    background-image: linear-gradient(rgba(253, 250, 243, 0.97), rgba(253, 250, 243, 0.97)), url('assets/images/background.jpg');
+    background-color: #faf6ec;
+    background-image: linear-gradient(rgba(250, 246, 236, 0.96), rgba(245, 238, 220, 0.96)), url('assets/images/background.jpg');
     border-color: #c4b48e;
+    box-shadow: 0 15px 45px rgba(120, 100, 60, 0.2);
+}
+
+[data-theme="day"] .freshy-ticket .ticket-header-strip h3 {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+[data-theme="day"] .freshy-ticket .ticket-header-strip::after {
+    background-color: #b89347;
+}
+
+[data-theme="day"] .freshy-ticket .ticket-field label {
+    color: #9a8b72;
+}
+
+[data-theme="day"] .freshy-ticket .ticket-field span {
+    color: #3c3222;
+}
+
+[data-theme="day"] .freshy-ticket .ticket-field.student-id-field span {
+    color: #96782e;
+}
+
+[data-theme="day"] .freshy-ticket .ticket-body::after {
+    border-left-color: #d4c5a9;
+}
+
+[data-theme="day"] .freshy-ticket .stub-group-badge h4 {
+    color: #3c3222;
+}
+
+[data-theme="day"] .freshy-ticket .stub-group-badge span {
+    color: #7a6b5a;
+}
+
+[data-theme="day"] .freshy-ticket .stub-group-badge i {
+    color: #b89347;
+}
+
+[data-theme="day"] .freshy-ticket .stub-time {
+    color: #faf6ec;
+    background-color: #b89347;
+}
+
+[data-theme="day"] .freshy-ticket .ticket-watermark {
+    opacity: 0.06;
 }
 
 [data-theme="day"] .ticket-notch {
-    background-color: rgba(0,0,0,0.6);
-}
-
-[data-theme="day"] .ticket-body::after {
-    border-left-color: var(--border-warm);
+    background-color: rgba(60, 50, 34, 0.7);
 }
 
 [data-theme="day"] .ticket-modal-backdrop {
@@ -2595,6 +2637,31 @@ body {
 [data-theme="day"] .freshy-ticket.staff-theme {
     background-color: #2c2416;
     background-image: linear-gradient(rgba(44, 36, 22, 0.96), rgba(44, 36, 22, 0.96)), url('assets/images/background.jpg');
+    border-color: #5a4a2a;
+}
+
+[data-theme="day"] .freshy-ticket.staff-theme .ticket-field label {
+    color: rgba(212, 197, 169, 0.6);
+}
+
+[data-theme="day"] .freshy-ticket.staff-theme .ticket-field span {
+    color: #f0e8d6;
+}
+
+[data-theme="day"] .freshy-ticket.staff-theme .ticket-field.student-id-field span {
+    color: #e2be73;
+}
+
+[data-theme="day"] .freshy-ticket.staff-theme .stub-group-badge h4 {
+    color: #f0e8d6;
+}
+
+[data-theme="day"] .freshy-ticket.staff-theme .stub-group-badge span {
+    color: rgba(212, 197, 169, 0.5);
+}
+
+[data-theme="day"] .freshy-ticket.staff-theme .stub-group-badge i {
+    color: #e2be73;
 }
 
 [data-theme="day"] .countdown-label {
