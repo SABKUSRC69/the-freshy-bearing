@@ -9,7 +9,42 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // 2. Navigation Control (Menu tabs switcher)
+    // 2. Day/Night Theme Toggle
+    const themeCheckbox = document.getElementById('theme-checkbox');
+    const themeThumbIcon = document.querySelector('.toggle-thumb i');
+    const nightLabel = document.querySelector('.night-label');
+    const dayLabel = document.querySelector('.day-label');
+    
+    function applyTheme(isDayMode) {
+        if (isDayMode) {
+            document.documentElement.setAttribute('data-theme', 'day');
+            if (themeThumbIcon) themeThumbIcon.className = 'fa-solid fa-sun';
+            if (nightLabel) nightLabel.classList.remove('active-label');
+            if (dayLabel) dayLabel.classList.add('active-label');
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+            if (themeThumbIcon) themeThumbIcon.className = 'fa-solid fa-moon';
+            if (dayLabel) dayLabel.classList.remove('active-label');
+            if (nightLabel) nightLabel.classList.add('active-label');
+        }
+    }
+
+    // Restore saved theme preference
+    const savedTheme = localStorage.getItem('freshy-theme');
+    if (savedTheme === 'day') {
+        if (themeCheckbox) themeCheckbox.checked = true;
+        applyTheme(true);
+    }
+
+    if (themeCheckbox) {
+        themeCheckbox.addEventListener('change', () => {
+            const isDayMode = themeCheckbox.checked;
+            applyTheme(isDayMode);
+            localStorage.setItem('freshy-theme', isDayMode ? 'day' : 'night');
+        });
+    }
+
+    // 3. Navigation Control (Menu tabs switcher)
     const tabs = document.querySelectorAll('.menu-tab');
     const sections = document.querySelectorAll('.content-section');
 

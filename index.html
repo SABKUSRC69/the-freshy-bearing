@@ -25,7 +25,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
     <!-- Style CSS -->
-    <link rel="stylesheet" href="style.css?v=3.0">
+    <link rel="stylesheet" href="style.css?v=3.1">
 </head>
 <body>
     <!-- Background Splatters and Corners for Aesthetic Scrapbook Vibe -->
@@ -72,6 +72,21 @@
 
             </nav>
             <div class="sidebar-footer">
+                <!-- Day/Night Theme Toggle -->
+                <div class="theme-toggle-wrapper">
+                    <span class="theme-toggle-label night-label active-label"><i class="fa-solid fa-moon"></i> Night</span>
+                    <label class="theme-toggle" id="theme-toggle" title="สลับธีม กลางวัน/กลางคืน">
+                        <input type="checkbox" id="theme-checkbox">
+                        <div class="toggle-track">
+                            <div class="toggle-stars"></div>
+                            <div class="toggle-clouds"></div>
+                            <div class="toggle-thumb">
+                                <i class="fa-solid fa-moon"></i>
+                            </div>
+                        </div>
+                    </label>
+                    <span class="theme-toggle-label day-label"><i class="fa-solid fa-sun"></i> Day</span>
+                </div>
                 <p>องค์การบริหาร องค์การนิสิต<br>ม.เกษตรศาสตร์ วิทยาเขตศรีราชา</p>
             </div>
         </aside>
@@ -648,10 +663,10 @@
     </div>
 
     <!-- Student Data Script -->
-    <link rel="prefetch" href="assets/js/data.js?v=3.0">
-    <script src="assets/js/data.js?v=3.0"></script>
+    <link rel="prefetch" href="assets/js/data.js?v=3.1">
+    <script src="assets/js/data.js?v=3.1"></script>
     <!-- App Script -->
-    <script src="assets/js/app3.js?v=3.0"></script>
+    <script src="assets/js/app3.js?v=3.1"></script>
     <script>
     // INLINE VERSION CHECK: If this shows, index.html is v3.0
     console.log('[Freshy Bearing] index.html v3.0 loaded');
