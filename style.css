@@ -2124,13 +2124,13 @@ body {
 
 /* Horizontal Staff Boarding Pass Ticket Theme (เหมือนน้องๆ) */
 .freshy-ticket.staff-theme {
-    background-color: #05050c;
-    background-image: linear-gradient(135deg, rgba(10, 10, 20, 0.96), rgba(15, 15, 30, 0.94)), url('assets/images/starry_sky.png');
+    background-color: #1e1914;
+    background-image: linear-gradient(135deg, rgba(30, 25, 20, 0.95), rgba(40, 32, 20, 0.92)), url('assets/images/starry_sky.png');
     border-color: var(--color-gold);
 }
 
 .freshy-ticket.staff-theme .ticket-header-strip {
-    background-image: linear-gradient(rgba(10, 10, 20, 0.4), rgba(15, 15, 30, 0.75)), url('assets/images/starry_sky.png');
+    background-image: linear-gradient(rgba(30, 25, 20, 0.4), rgba(30, 25, 20, 0.75)), url('assets/images/starry_sky.png');
     background-position: center;
     background-size: cover;
     border-bottom-color: var(--color-gold);
@@ -2635,43 +2635,45 @@ body {
 }
 
 [data-theme="day"] .freshy-ticket.staff-theme {
-    background-color: #faf6ec;
-    background-image: linear-gradient(rgba(250, 246, 236, 0.96), rgba(245, 238, 220, 0.96)), url('assets/images/background.jpg');
-    border-color: #c4b48e;
-    box-shadow: 0 15px 45px rgba(120, 100, 60, 0.2);
+    background-color: #1e1914;
+    background-image: linear-gradient(135deg, rgba(30, 25, 20, 0.95), rgba(40, 32, 20, 0.92)), url('assets/images/starry_sky.png');
+    border-color: var(--color-gold);
+    box-shadow: 0 15px 45px rgba(0,0,0,0.4);
 }
 
 [data-theme="day"] .freshy-ticket.staff-theme .ticket-header-strip {
-    background-image: linear-gradient(rgba(60, 50, 34, 0.35), rgba(60, 50, 34, 0.45)), url('assets/images/card_staff.png');
-    border-bottom-color: #b89347;
+    background-image: linear-gradient(rgba(30, 25, 20, 0.4), rgba(30, 25, 20, 0.75)), url('assets/images/starry_sky.png');
+    background-position: center;
+    background-size: cover;
+    border-bottom-color: var(--color-gold);
 }
 
 [data-theme="day"] .freshy-ticket.staff-theme .ticket-field label {
-    color: #9a8b72;
+    color: rgba(255, 255, 255, 0.55);
 }
 
 [data-theme="day"] .freshy-ticket.staff-theme .ticket-field span {
-    color: #3c3222;
+    color: #fdfcf9;
 }
 
 [data-theme="day"] .freshy-ticket.staff-theme .ticket-field.student-id-field span {
-    color: #96782e;
+    color: #faebd2;
 }
 
 [data-theme="day"] .freshy-ticket.staff-theme .ticket-body::after {
-    border-left-color: #d4c5a9;
+    border-left-color: rgba(255, 255, 255, 0.15);
 }
 
 [data-theme="day"] .freshy-ticket.staff-theme .stub-group-badge h4 {
-    color: #3c3222;
+    color: #fdfcf9;
 }
 
 [data-theme="day"] .freshy-ticket.staff-theme .stub-group-badge span {
-    color: #7a6b5a;
+    color: rgba(255, 255, 255, 0.5);
 }
 
 [data-theme="day"] .freshy-ticket.staff-theme .stub-group-badge i {
-    color: #b89347;
+    color: #faebd2;
 }
 
 [data-theme="day"] .countdown-label {
