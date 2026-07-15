@@ -4,6 +4,8 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     let facultyChart, planChart;
+    let currentStudentRow = null;
+    let currentStaffRow = null;
 
     // 1. Initial Data check
     if (typeof STUDENT_DATA === 'undefined') {
@@ -81,6 +83,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const isDayMode = themeCheckbox.checked;
             applyTheme(isDayMode);
             localStorage.setItem('freshy-theme', isDayMode ? 'day' : 'night');
+
+            // Dynamic redraw on theme toggle
+            if (currentStudentRow) {
+                showTicket(currentStudentRow);
+            } else if (currentStaffRow) {
+                showStaffTicket(currentStaffRow);
+            }
         });
     }
 
@@ -165,19 +174,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Map stable pre-allocated session/team IDs to display meta
     function getSessionMeta(sessionId) {
-        if (parseInt(sessionId) === 0) {
-            return {
-                name: "รอบเช้า (Morning)",
-                regTime: "08.00 - 08.30 น.",
-                activityTime: "08.30 - 12.30 น.",
-                iconClass: "fa-solid fa-sun"
-            };
+        const isDayMode = document.documentElement.getAttribute('data-theme') === 'day';
+        
+        if (isDayMode) {
+            // Day mode: Show Freshy Day Morning / Afternoon session times
+            if (parseInt(sessionId) === 0) {
+                return {
+                    name: "รอบเช้า (Morning)",
+                    regTime: "08.00 - 08.30 น.",
+                    activityTime: "08.30 - 12.30 น.",
+                    iconClass: "fa-solid fa-sun"
+                };
+            } else {
+                return {
+                    name: "รอบบ่าย (Afternoon)",
+                    regTime: "13.30 - 14.00 น.",
+                    activityTime: "14.00 - 18.00 น.",
+                    iconClass: "fa-solid fa-cloud-sun"
+                };
+            }
         } else {
+            // Night mode: Show Freshy Night Concert details for everyone
             return {
-                name: "รอบบ่าย (Afternoon)",
-                regTime: "13.30 - 14.00 น.",
-                activityTime: "14.00 - 18.00 น.",
-                iconClass: "fa-solid fa-cloud-sun"
+                name: "Freshy Night Concert",
+                regTime: "18.00 - 19.00 น.",
+                activityTime: "18.00 - 22.00 น.",
+                iconClass: "fa-solid fa-guitar"
             };
         }
     }
@@ -560,6 +582,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const ticketPlaceholder = document.getElementById('modal-ticket-placeholder');
 
     function showTicket(row) {
+        currentStudentRow = row;
+        currentStaffRow = null;
         const sid = row[0];
         const prefix = row[1];
         const name = row[2];
@@ -641,11 +665,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     modalClose.addEventListener('click', () => {
         modal.classList.remove('active');
+        currentStudentRow = null;
+        currentStaffRow = null;
     });
 
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
             modal.classList.remove('active');
+            currentStudentRow = null;
+            currentStaffRow = null;
         }
     });
 
@@ -827,6 +855,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showStaffTicket(row) {
+        currentStaffRow = row;
+        currentStudentRow = null;
         const isSubcomm = row.role === 'subcommittee';
         const isAdvisor = row.position.includes('ที่ปรึกษา') || row.id === 'SAB69';
         const roleHeader = isAdvisor ? 'SPECIAL PASS' : 'STAFF';
