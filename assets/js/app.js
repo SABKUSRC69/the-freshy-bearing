@@ -165,12 +165,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Map stable pre-allocated session/team IDs to display meta
     function getSessionMeta(sessionId) {
-        return {
-            name: "Freshy Night Concert",
-            regTime: "18.00 - 19.00 น.",
-            activityTime: "18.00 - 22.00 น.",
-            iconClass: "fa-solid fa-guitar"
-        };
+        if (parseInt(sessionId) === 0) {
+            return {
+                name: "รอบเช้า (Morning)",
+                regTime: "08.00 - 08.30 น.",
+                activityTime: "08.30 - 12.30 น.",
+                iconClass: "fa-solid fa-sun"
+            };
+        } else {
+            return {
+                name: "รอบบ่าย (Afternoon)",
+                regTime: "13.30 - 14.00 น.",
+                activityTime: "14.00 - 18.00 น.",
+                iconClass: "fa-solid fa-cloud-sun"
+            };
+        }
     }
 
     function getTeamMeta(teamId) {
